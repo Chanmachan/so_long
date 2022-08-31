@@ -36,3 +36,5 @@ clean:
 fclean: clean
 		$(MAKE) -C $(LIBFT) fclean
 		$(RM) $(NAME)
+
+.PHONY: all clean fclean re
