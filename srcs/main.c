@@ -20,5 +20,6 @@ int	main(void)
 		}
 		free(str);
 	}
+	close(fd);
 	return (0);
 }
