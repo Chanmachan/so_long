@@ -38,20 +38,17 @@ char	**load_map()
 	char	**ret;
 
 	fd = open("maps/sample.ber", O_RDONLY);
-	printf("fd = %d\n", fd);
 	str = ft_strdup("");
 	while (1)
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
-		printf("line : %s", line);
 		tmp = str;
 		str = ft_strjoin(str, line);
 		free(tmp);
 		free(line);
 	}
-	printf("str : %s", str);
 	ret = ft_split(str, '\n');
 	free(str);
 	return (ret);
