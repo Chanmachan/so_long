@@ -2,7 +2,7 @@
 
 int	exit_failure()
 {
-	ft_putendl_fd("Invalid map", 1);
+	ft_putendl_fd("Invalid Map", 1);
 	exit(EXIT_FAILURE);
 }
 
@@ -10,6 +10,53 @@ int	give_error_msg()
 {
 	perror("Error");
 	exit(EXIT_FAILURE);
+}
+
+int	up_and_down_frame(char **str, t_info *info)
+{
+	size_t	row;
+	size_t	column;
+
+	row = 0;
+	column = 0;
+	while (str[row][column] != '\0')
+	{
+		if (str[row][column] != '1')
+			exit_failure();
+		column++;
+	}
+	column = 0;
+	row = info->array - 1;
+	while (str[row][column] != '\0')
+	{
+		if (str[row][column] != '1')
+			exit_failure();
+		column++;
+	}
+	return (0);
+}
+
+int	side_frame(char **str, t_info *info)
+{
+	size_t	row;
+	size_t	column;
+
+	row = 1;
+	while (row < info->array - 1)
+	{
+		column = 0;
+		while (column < info->len)
+		{
+			if (column == 0 || column == info->len - 1)
+			{
+				if (str[row][column] != '1')
+					exit_failure();
+			}
+			column++;
+		}
+		row++;
+	}
+	return (0);
 }
 
 int	compare_length(char **str, t_info *info)
@@ -25,32 +72,21 @@ int	compare_length(char **str, t_info *info)
 			exit_failure();
 		row++;
 	}
+	info->len = len;
 	return (0);
 }
 
 int	valid_map(char **str, t_info *info)
 {
-	size_t	row;
-	size_t	column;
-	size_t	*len;
-	size_t	index;
-
-	row = 0;
-	column = 0;
-	index = 0;
 	compare_length(str, info);
-	while (str[row][column] != '\0')
-	{
-		if (str[row][column] != '1')
-			exit_failure();
-		column++;
-	}
+	up_and_down_frame(str, info);
+	side_frame(str, info);
 	return (0);
 }
 
 void	init_info(t_info *info)
 {
-	info->len = NULL;
+	info->len = 0;
 	info->array = 0;
 }
 
@@ -83,10 +119,10 @@ char	**load_map(t_info *info)
 	return (ret);
 }
 
-__attribute__((destructor))
+/*__attribute__((destructor))
 static void destructor() {
 	system("leaks -q so_long");
-}
+}*/
 
 int	main(void)
 {
