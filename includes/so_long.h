@@ -6,6 +6,8 @@
 # include <errno.h>
 # include "../gnl/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
+# include "../minilibx-linux/mlx.h"
+# include "../minilibx-linux/mlx_int.h"
 
 typedef struct s_info
 {
