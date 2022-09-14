@@ -50,7 +50,7 @@ static char	*read_lines(char *str, int fd)
 			return (NULL);
 		}
 		buf[rd_bytes] = '\0';
-		str = ft_strjoin(str, buf);
+		str = gnl_strjoin(str, buf);
 	}
 	free(buf);
 	return (str);
@@ -68,7 +68,7 @@ static char	*get_one_line(char *str)
 		i++;
 	if (str[i] == '\n')
 		i++;
-	rtn_str = ft_substr(str, 0, i);
+	rtn_str = gnl_substr(str, 0, i);
 	if (rtn_str == NULL)
 		return (NULL);
 	return (rtn_str);
@@ -91,7 +91,7 @@ static char	*delete_last_line(char *str)
 	}
 	if (str[i] == '\n')
 		i++;
-	new_str = ft_substr(&str[i], 0, ft_strlen(&str[i]));
+	new_str = gnl_substr(&str[i], 0, gnl_strlen(&str[i]));
 	if (new_str == NULL)
 	{
 		free(str);

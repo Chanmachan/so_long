@@ -22,5 +22,8 @@
 # include "../../libft/includes/libft.h"
 
 char	*get_next_line(int fd);
+size_t	gnl_strlen(const char *str);
+char	*gnl_strjoin(char *s1, char *s2);
+char	*gnl_substr(char const *s, unsigned int start, size_t len);
 
 #endif

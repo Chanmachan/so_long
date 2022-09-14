@@ -4,7 +4,7 @@ SRCS_DIR = ./srcs
 
 OBJS_DIR = ./objs
 
-SRCS_FILE = get_next_line.c
+SRCS_FILE = get_next_line.c get_next_line_utils.c
 
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILE))
 
