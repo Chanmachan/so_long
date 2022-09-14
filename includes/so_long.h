@@ -3,6 +3,14 @@
 
 # include <stdio.h>
 # include <fcntl.h>
-#include "../gnl/includes/get_next_line.h"
+# include "../gnl/includes/get_next_line.h"
+# include "../libft/includes/libft.h"
+
+//typedef struct s_info
+//{
+//	char	**str;
+//	size_t	row;
+//	size_t	column;
+//} 				t_info;
 
 #endif
