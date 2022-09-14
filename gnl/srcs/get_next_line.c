@@ -12,7 +12,7 @@
 
 #include "../includes/get_next_line.h"
 
-static char	*ft_strchr(char *s, int c)
+static char	*gnl_strchr(char *s, int c)
 {
 	char	*new_s;
 	size_t	i;
@@ -32,7 +32,7 @@ static char	*ft_strchr(char *s, int c)
 	return (NULL);
 }
 
-char	*read_lines(char *str, int fd)
+static char	*read_lines(char *str, int fd)
 {
 	char		*buf;
 	ssize_t		rd_bytes;
@@ -41,7 +41,7 @@ char	*read_lines(char *str, int fd)
 	buf = (char *) malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (buf == NULL)
 		return (NULL);
-	while (rd_bytes != 0 && !ft_strchr(str, '\n'))
+	while (rd_bytes != 0 && !gnl_strchr(str, '\n'))
 	{
 		rd_bytes = read(fd, buf, BUFFER_SIZE);
 		if (rd_bytes == -1)
@@ -56,7 +56,7 @@ char	*read_lines(char *str, int fd)
 	return (str);
 }
 
-char	*get_one_line(char *str)
+static char	*get_one_line(char *str)
 {
 	size_t	i;
 	char	*rtn_str;
@@ -76,7 +76,7 @@ char	*get_one_line(char *str)
 
 //str[0] == '\0' if empty
 
-char	*delete_last_line(char *str)
+static char	*delete_last_line(char *str)
 {
 	size_t	i;
 	char	*new_str;

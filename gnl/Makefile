@@ -4,11 +4,11 @@ SRCS_DIR = ./srcs
 
 OBJS_DIR = ./objs
 
-SRCS_FILE = get_next_line.c get_next_line_utils.c get_next_line_bonus.c get_next_line_utils_bonus.c
+SRCS_FILE = get_next_line.c
 
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILE))
 
-INCLUDES = get_next_line.h get_next_line_bonus.h
+INCLUDES = get_next_line.h
 
 OBJS = $(patsubst $(SRCS_DIR)/%, $(OBJS_DIR)/%, $(SRCS:.c=.o))
 
