@@ -9,7 +9,7 @@
 
 typedef struct s_info
 {
-	size_t	*len;
+	size_t	len;
 	size_t	array;
 } 				t_info;
 
