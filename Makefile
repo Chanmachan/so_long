@@ -32,8 +32,8 @@ test: $(OBJS)
 $(NAME): $(OBJS)
 		$(MAKE) -C $(LIBFT)
 		$(MAKE) -C $(GNL)
-		$(CC) $(CFLAGS) $(GNL_ARC) $(MLX_ARC) $(LIBFT_ARC) $< -o $(NAME)
-#$(CC) $(CFLAGS) $(MLX_ARC) $(LIBFT_ARC) $(GNL_ARC) $< -o $(NAME)
+		$(CC) $(CFLAGS) $(MLX_ARC) $(LIBFT_ARC) $(GNL_ARC) $< -o $(NAME)
+#$(CC) $(CFLAGS) $(GNL_ARC) $(MLX_ARC) $(LIBFT_ARC) $< -o $(NAME)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 		mkdir -p $(OBJS_DIR)
