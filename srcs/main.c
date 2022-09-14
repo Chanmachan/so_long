@@ -29,12 +29,13 @@
 	close(fd);
 }*/
 
-void	load_map()
+char	**load_map()
 {
 	char	*str;
 	int		fd;
 	char	*line;
 	char	*tmp;
+	char	**ret;
 
 	fd = open("maps/sample.ber", O_RDONLY);
 	printf("fd = %d\n", fd);
@@ -43,10 +44,7 @@ void	load_map()
 	{
 		line = get_next_line(fd);
 		if (line == NULL)
-		{
-			printf("here : %s", line);
 			break ;
-		}
 		printf("line : %s", line);
 		tmp = str;
 		str = ft_strjoin(str, line);
@@ -54,7 +52,9 @@ void	load_map()
 		free(line);
 	}
 	printf("str : %s", str);
+	ret = ft_split(str, '\n');
 	free(str);
+	return (ret);
 }
 
 __attribute__((destructor))
@@ -65,11 +65,23 @@ static void destructor() {
 int	main(void)
 {
 	char	**str;
-//	size_t	row;//行(横)
+	size_t	row;//行(横)
 //	size_t	column;//列(縦)
 
-//	row = 0;
+	row = 0;
 //	column = 0;
-	load_map();
+	str = load_map();
+	while (1)
+	{
+		printf("str : %s\n", str[row]);
+		if (str[row] == NULL)
+		{
+			free(str[row]);
+			break;
+		}
+		free(str[row]);
+		row++;
+	}
+	free(str);
 	return (0);
 }
