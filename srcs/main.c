@@ -1,43 +1,71 @@
 #include "../includes/so_long.h"
 
-//int	valid_map()
-
-/*void	load_map()
+int	exit_failure()
 {
-	char	**str;
-	int 	fd;
-	char	**tmp;
-	size_t	i;
+	ft_putendl_fd("Invalid map", 1);
+	exit(EXIT_FAILURE);
+}
 
-	fd = open("maps/sample.ber", O_RDONLY);
-	i = 0;
-	while (1)
+int	give_error_msg()
+{
+	perror("Error");
+	exit(EXIT_FAILURE);
+}
+
+int	compare_length(char **str, t_info *info)
+{
+	size_t	row;
+	size_t	len;
+
+	row = 0;
+	len = ft_strlen(str[row]);
+	while (row < info->array)
 	{
-		str = (char **) malloc(sizeof(char) * 1);
-		if (str == NULL)
-			exit(EXIT_FAILURE);
-		if (i++ == 0)
-			tmp = str;
-		*str = get_next_line(fd);
-		printf("%s", *str);
-		if (*str == NULL)
-		{
-			break;
-		}
-		str++;
+		if (len != ft_strlen(str[row]))
+			exit_failure();
+		row++;
 	}
-	close(fd);
-}*/
+	return (0);
+}
 
-char	**load_map()
+int	valid_map(char **str, t_info *info)
 {
-	char	*str;
+	size_t	row;
+	size_t	column;
+	size_t	*len;
+	size_t	index;
+
+	row = 0;
+	column = 0;
+	index = 0;
+	compare_length(str, info);
+	while (str[row][column] != '\0')
+	{
+		if (str[row][column] != '1')
+			exit_failure();
+		column++;
+	}
+	return (0);
+}
+
+void	init_info(t_info *info)
+{
+	info->len = NULL;
+	info->array = 0;
+}
+
+char	**load_map(t_info *info)
+{
 	int		fd;
+	char	*str;
 	char	*line;
 	char	*tmp;
 	char	**ret;
 
 	fd = open("maps/sample.ber", O_RDONLY);
+	if (fd == -1)
+		give_error_msg();
+	init_info(info);
 	str = ft_strdup("");
 	while (1)
 	{
@@ -48,6 +76,7 @@ char	**load_map()
 		str = ft_strjoin(str, line);
 		free(tmp);
 		free(line);
+		info->array++;
 	}
 	ret = ft_split(str, '\n');
 	free(str);
@@ -64,13 +93,14 @@ int	main(void)
 	char	**str;
 	size_t	row;//行(横)
 //	size_t	column;//列(縦)
+	t_info	info;
 
 	row = 0;
 //	column = 0;
-	str = load_map();
+	str = load_map(&info);
+	valid_map(str, &info);
 	while (1)
 	{
-		printf("str : %s\n", str[row]);
 		if (str[row] == NULL)
 		{
 			free(str[row]);
@@ -80,5 +110,6 @@ int	main(void)
 		row++;
 	}
 	free(str);
+//	system("leaks -q so_long");
 	return (0);
 }
