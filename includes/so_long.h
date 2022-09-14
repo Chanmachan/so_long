@@ -7,11 +7,10 @@
 # include "../gnl/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
 
-//typedef struct s_info
-//{
-//	char	**str;
-//	size_t	row;
-//	size_t	column;
-//} 				t_info;
+typedef struct s_info
+{
+	size_t	*len;
+	size_t	array;
+} 				t_info;
 
 #endif
