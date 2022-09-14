@@ -3,6 +3,7 @@
 
 # include <stdio.h>
 # include <fcntl.h>
+# include <errno.h>
 # include "../gnl/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
 
