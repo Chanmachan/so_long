@@ -1,12 +1,12 @@
 #include "../includes/so_long.h"
 
-int	exit_failure()
+int	exit_failure(void)
 {
 	ft_putendl_fd("Invalid Map", 1);
 	exit(EXIT_FAILURE);
 }
 
-int	give_error_msg()
+int	give_error_msg(void)
 {
 	perror("Error");
 	exit(EXIT_FAILURE);
@@ -14,65 +14,65 @@ int	give_error_msg()
 
 int	up_and_down_frame(char **str, t_info *info)
 {
-	size_t	row;
-	size_t	column;
+	size_t	i;
+	size_t	j;
 
-	row = 0;
-	column = 0;
-	while (str[row][column] != '\0')
+	i = 0;
+	j = 0;
+	while (str[i][j] != '\0')
 	{
-		if (str[row][column] != '1')
+		if (str[i][j] != '1')
 			exit_failure();
-		column++;
+		j++;
 	}
-	column = 0;
-	row = info->array - 1;
-	while (str[row][column] != '\0')
+	j = 0;
+	i = info->column - 1;
+	while (str[i][j] != '\0')
 	{
-		if (str[row][column] != '1')
+		if (str[i][j] != '1')
 			exit_failure();
-		column++;
+		j++;
 	}
 	return (0);
 }
 
 int	side_frame(char **str, t_info *info)
 {
-	size_t	row;
-	size_t	column;
+	size_t	i;
+	size_t	j;
 
-	row = 1;
-	while (row < info->array - 1)
+	i = 1;
+	while (i < info->column - 1)
 	{
-		column = 0;
-		while (column < info->len)
+		j = 0;
+		while (j < info->row)
 		{
-			if (column == 0 || column == info->len - 1)
+			if (j == 0 || j == info->row - 1)
 			{
-				if (str[row][column] != '1')
+				if (str[i][j] != '1')
 					exit_failure();
 			}
-			column++;
+			j++;
 		}
-		row++;
+		i++;
 	}
 	return (0);
 }
 
 int	compare_length(char **str, t_info *info)
 {
-	size_t	row;
+	size_t	i;
 	size_t	len;
 
-	row = 0;
-	len = ft_strlen(str[row]);
-	while (row < info->array)
+	i = 0;
+	len = ft_strlen(str[i]);
+	while (i < info->column)
 	{
-		if (len != ft_strlen(str[row]))
+		if (len != ft_strlen(str[i]))
 			exit_failure();
-		row++;
+		i++;
 	}
-	info->len = len;
+	info->row = len;
 	return (0);
 }
 
@@ -86,8 +86,9 @@ int	valid_map(char **str, t_info *info)
 
 void	init_info(t_info *info)
 {
-	info->len = 0;
-	info->array = 0;
+	info->row = 0;
+	info->column = 0;
+	info->map = NULL;
 }
 
 char	**load_map(t_info *info)
@@ -112,9 +113,11 @@ char	**load_map(t_info *info)
 		str = ft_strjoin(str, line);
 		free(tmp);
 		free(line);
-		info->array++;
+		info->column++;
 	}
 	ret = ft_split(str, '\n');
+	info->map = ret;
+	printf("strlen : %zu\n", ft_strlen(str));
 	free(str);
 	return (ret);
 }
@@ -130,17 +133,23 @@ int	main(void)
 	size_t	row;//行(横)
 //	size_t	column;//列(縦)
 	t_info	info;
+	void	*mlx_id;
+	void	*mlx_win_id;
 
 	row = 0;
 //	column = 0;
 	str = load_map(&info);
 	valid_map(str, &info);
+	mlx_id = mlx_init();
+	mlx_win_id = mlx_new_window(mlx_id, info.row * 35, info.column * 35, "test");
+	mlx_loop(mlx_id);
+	//free処理
 	while (1)
 	{
 		if (str[row] == NULL)
 		{
 			free(str[row]);
-			break;
+			break ;
 		}
 		free(str[row]);
 		row++;

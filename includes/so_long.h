@@ -7,12 +7,13 @@
 # include "../gnl/includes/get_next_line.h"
 # include "../libft/includes/libft.h"
 # include "../minilibx-linux/mlx.h"
-# include "../minilibx-linux/mlx_int.h"
 
 typedef struct s_info
 {
-	size_t	len;
-	size_t	array;
+	size_t	row;
+	size_t	column;
+	char	**map;
+//	size_t
 } 				t_info;
 
 #endif
