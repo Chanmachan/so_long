@@ -137,13 +137,32 @@ void	display_map(t_info *info, char *str, int x, int y)
 	void	*mlx_img2;
 	int		img_width;
 	int		img_height;
-	mlx_img = mlx_xpm_file_to_image(info->mlx_id, "imgs/kusa2_tmp.xpm", &img_width, &img_height);
-	mlx_img2 = mlx_xpm_file_to_image(info->mlx_id, "imgs/mizu_tmp.xpm", &img_width, &img_height);
 
+	mlx_img = mlx_xpm_file_to_image(info->mlx_id, "imgs/map_ground_rock.xpm", &img_width, &img_height);
+	mlx_img2 = mlx_xpm_file_to_image(info->mlx_id, "imgs/map_ground.xpm", &img_width, &img_height);
+//	mlx_img3 = mlx_xpm_file_to_image(info->mlx_id, "imgs/map_ground.xpm", &img_width, &img_height);
 	if (*str == '1')
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
 	else if (*str == '0')
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img2, x * 32, y * 32);
+}
+
+void	put_map(t_info *info)
+{
+	size_t	i;
+	size_t	j;
+
+	i = 0;
+	while (i < info->map_info->column)
+	{
+		j = 0;
+		while (j < info->map_info->row)
+		{
+			display_map(info, &info->map_info->map[i][j], j, i);
+			j++;
+		}
+		i++;
+	}
 }
 
 int	main(void)
@@ -162,7 +181,8 @@ int	main(void)
 	valid_map(&info);
 	info.mlx_id = mlx_init();
 	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "test");
-	while (i < info.map_info->column)
+	put_map(&info);
+	/*while (i < info.map_info->column)
 	{
 		j = 0;
 		printf("piyo : %zu\n", i);
@@ -173,7 +193,7 @@ int	main(void)
 			j++;
 		}
 		i++;
-	}
+	}*/
 	mlx_loop(info.mlx_id);
 	//free処理
 	while (1)
