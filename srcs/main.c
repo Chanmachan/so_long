@@ -26,7 +26,7 @@ int	up_and_down_frame(char **str, t_info *info)
 		j++;
 	}
 	j = 0;
-	i = info->column - 1;
+	i = info->map_info->column - 1;
 	while (str[i][j] != '\0')
 	{
 		if (str[i][j] != '1')
@@ -42,12 +42,12 @@ int	side_frame(char **str, t_info *info)
 	size_t	j;
 
 	i = 1;
-	while (i < info->column - 1)
+	while (i < info->map_info->column - 1)
 	{
 		j = 0;
-		while (j < info->row)
+		while (j < info->map_info->row)
 		{
-			if (j == 0 || j == info->row - 1)
+			if (j == 0 || j == info->map_info->row - 1)
 			{
 				if (str[i][j] != '1')
 					exit_failure();
@@ -66,13 +66,13 @@ int	compare_length(char **str, t_info *info)
 
 	i = 0;
 	len = ft_strlen(str[i]);
-	while (i < info->column)
+	while (i < info->map_info->column)
 	{
 		if (len != ft_strlen(str[i]))
 			exit_failure();
 		i++;
 	}
-	info->row = len;
+	info->map_info->row = len;
 	return (0);
 }
 
@@ -86,12 +86,17 @@ int	valid_map(char **str, t_info *info)
 
 void	init_info(t_info *info)
 {
-	info->row = 0;
-	info->column = 0;
-	info->map = NULL;
+	info->mlx_id = NULL;
+	info->mlx_win_id = NULL;
+	info->map_info = (t_map_info *) malloc(sizeof(t_map_info));
+	if (info->map_info == NULL)
+		give_error_msg();
+	info->map_info->row = 0;
+	info->map_info->column = 0;
+	info->map_info->map = NULL;
 }
 
-char	**load_map(t_info *info)
+void	load_map(t_info *info)
 {
 	int		fd;
 	char	*str;
@@ -113,13 +118,12 @@ char	**load_map(t_info *info)
 		str = ft_strjoin(str, line);
 		free(tmp);
 		free(line);
-		info->column++;
+		info->map_info->column++;
 	}
 	ret = ft_split(str, '\n');
-	info->map = ret;
+	info->map_info->map = ret;
 	printf("strlen : %zu\n", ft_strlen(str));
 	free(str);
-	return (ret);
 }
 
 /*__attribute__((destructor))
@@ -127,19 +131,19 @@ static void destructor() {
 	system("leaks -q so_long");
 }*/
 
-void	display_map(void *mlx_id, void *mlx_win_id, char *str, int x, int y)
+void	display_map(t_info *info, char *str, int x, int y)
 {
 	void	*mlx_img;
 	void	*mlx_img2;
 	int		img_width;
 	int		img_height;
-	mlx_img = mlx_xpm_file_to_image(mlx_id, "imgs/kusa2_tmp.xpm", &img_width, &img_height);
-	mlx_img2 = mlx_xpm_file_to_image(mlx_id, "imgs/mizu_tmp.xpm", &img_width, &img_height);
+	mlx_img = mlx_xpm_file_to_image(info->mlx_id, "imgs/kusa2_tmp.xpm", &img_width, &img_height);
+	mlx_img2 = mlx_xpm_file_to_image(info->mlx_id, "imgs/mizu_tmp.xpm", &img_width, &img_height);
 
 	if (*str == '1')
-		mlx_put_image_to_window(mlx_id, mlx_win_id, mlx_img, x * 32, y * 32);
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
 	else
-		mlx_put_image_to_window(mlx_id, mlx_win_id, mlx_img2, x * 32, y * 32);
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img2, x * 32, y * 32);
 }
 
 int	main(void)
@@ -148,31 +152,29 @@ int	main(void)
 	size_t	row;//行(横)
 //	size_t	column;//列(縦)
 	t_info	info;
-	void	*mlx_id;
-	void	*mlx_win_id;
 	size_t	i;
 	size_t	j;
 
 	i = 0;
 	row = 0;
 //	column = 0;
-	str = load_map(&info);
+	load_map(&info);
 	valid_map(str, &info);
-	mlx_id = mlx_init();
-	mlx_win_id = mlx_new_window(mlx_id, info.row * 32, info.column * 32, "test");
-	while (i < info.column)
+	info.mlx_id = mlx_init();
+	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "test");
+	while (i < info.map_info->column)
 	{
 		j = 0;
 		printf("piyo : %zu\n", i);
-		while (j < info.row)
+		while (j < info.map_info->row)
 		{
-			display_map(mlx_id, mlx_win_id, &str[i][j], j, i);
+			display_map(&info, &info.map_info->map[i][j], j, i);
 			printf("j : %zu\n", j);
 			j++;
 		}
 		i++;
 	}
-	mlx_loop(mlx_id);
+	mlx_loop(info.mlx_id);
 	//free処理
 	while (1)
 	{
