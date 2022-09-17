@@ -12,31 +12,31 @@ int	give_error_msg(void)
 	exit(EXIT_FAILURE);
 }
 
-int	up_and_down_frame(char **str, t_info *info)
+int	up_and_down_frame(t_info *info)
 {
 	size_t	i;
 	size_t	j;
 
 	i = 0;
 	j = 0;
-	while (str[i][j] != '\0')
+	while (info->map_info->map[i][j] != '\0')
 	{
-		if (str[i][j] != '1')
+		if (info->map_info->map[i][j] != '1')
 			exit_failure();
 		j++;
 	}
 	j = 0;
 	i = info->map_info->column - 1;
-	while (str[i][j] != '\0')
+	while (info->map_info->map[i][j] != '\0')
 	{
-		if (str[i][j] != '1')
+		if (info->map_info->map[i][j] != '1')
 			exit_failure();
 		j++;
 	}
 	return (0);
 }
 
-int	side_frame(char **str, t_info *info)
+int	side_frame(t_info *info)
 {
 	size_t	i;
 	size_t	j;
@@ -49,7 +49,7 @@ int	side_frame(char **str, t_info *info)
 		{
 			if (j == 0 || j == info->map_info->row - 1)
 			{
-				if (str[i][j] != '1')
+				if (info->map_info->map[i][j] != '1')
 					exit_failure();
 			}
 			j++;
@@ -59,16 +59,16 @@ int	side_frame(char **str, t_info *info)
 	return (0);
 }
 
-int	compare_length(char **str, t_info *info)
+int	compare_length(t_info *info)
 {
 	size_t	i;
 	size_t	len;
 
 	i = 0;
-	len = ft_strlen(str[i]);
+	len = ft_strlen(info->map_info->map[i]);
 	while (i < info->map_info->column)
 	{
-		if (len != ft_strlen(str[i]))
+		if (len != ft_strlen(info->map_info->map[i]))
 			exit_failure();
 		i++;
 	}
@@ -76,11 +76,11 @@ int	compare_length(char **str, t_info *info)
 	return (0);
 }
 
-int	valid_map(char **str, t_info *info)
+int	valid_map(t_info *info)
 {
-	compare_length(str, info);
-	up_and_down_frame(str, info);
-	side_frame(str, info);
+	compare_length(info);
+	up_and_down_frame(info);
+	side_frame(info);
 	return (0);
 }
 
@@ -142,7 +142,7 @@ void	display_map(t_info *info, char *str, int x, int y)
 
 	if (*str == '1')
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
-	else
+	else if (*str == '0')
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img2, x * 32, y * 32);
 }
 
@@ -159,7 +159,7 @@ int	main(void)
 	row = 0;
 //	column = 0;
 	load_map(&info);
-	valid_map(str, &info);
+	valid_map(&info);
 	info.mlx_id = mlx_init();
 	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "test");
 	while (i < info.map_info->column)
