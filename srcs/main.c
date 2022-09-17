@@ -126,11 +126,6 @@ void	load_map(t_info *info)
 	free(str);
 }
 
-/*__attribute__((destructor))
-static void destructor() {
-	system("leaks -q so_long");
-}*/
-
 void	display_map(t_info *info, char *str, int x, int y)
 {
 	void	*mlx_img;
@@ -145,6 +140,8 @@ void	display_map(t_info *info, char *str, int x, int y)
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
 	else if (*str == '0')
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img2, x * 32, y * 32);
+	mlx_destroy_image(info->mlx_id, mlx_img);
+	mlx_destroy_image(info->mlx_id, mlx_img2);
 }
 
 void	put_map(t_info *info)
@@ -165,48 +162,26 @@ void	put_map(t_info *info)
 	}
 }
 
+__attribute__((destructor))
+static void destructor() {
+	system("leaks -q so_long");
+}
+
 int	main(void)
 {
-	char	**str;
-	size_t	row;//行(横)
 //	size_t	column;//列(縦)
 	t_info	info;
-	size_t	i;
-	size_t	j;
 
-	i = 0;
-	row = 0;
 //	column = 0;
 	load_map(&info);
 	valid_map(&info);
 	info.mlx_id = mlx_init();
 	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "test");
 	put_map(&info);
-	/*while (i < info.map_info->column)
-	{
-		j = 0;
-		printf("piyo : %zu\n", i);
-		while (j < info.map_info->row)
-		{
-			display_map(&info, &info.map_info->map[i][j], j, i);
-			printf("j : %zu\n", j);
-			j++;
-		}
-		i++;
-	}*/
-	mlx_loop(info.mlx_id);
+//	mlx_loop(info.mlx_id);
 	//free処理
-	while (1)
-	{
-		if (str[row] == NULL)
-		{
-			free(str[row]);
-			break ;
-		}
-		free(str[row]);
-		row++;
-	}
-	free(str);
+	mlx_destroy_window(info.mlx_id, info.mlx_win_id);
+	free(info.map_info);
 //	system("leaks -q so_long");
 	return (0);
 }
