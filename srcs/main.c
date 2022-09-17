@@ -127,6 +127,21 @@ static void destructor() {
 	system("leaks -q so_long");
 }*/
 
+void	display_map(void *mlx_id, void *mlx_win_id, char *str, int x, int y)
+{
+	void	*mlx_img;
+	void	*mlx_img2;
+	int		img_width;
+	int		img_height;
+	mlx_img = mlx_xpm_file_to_image(mlx_id, "imgs/kusa2_tmp.xpm", &img_width, &img_height);
+	mlx_img2 = mlx_xpm_file_to_image(mlx_id, "imgs/mizu_tmp.xpm", &img_width, &img_height);
+
+	if (*str == '1')
+		mlx_put_image_to_window(mlx_id, mlx_win_id, mlx_img, x * 32, y * 32);
+	else
+		mlx_put_image_to_window(mlx_id, mlx_win_id, mlx_img2, x * 32, y * 32);
+}
+
 int	main(void)
 {
 	char	**str;
@@ -135,13 +150,28 @@ int	main(void)
 	t_info	info;
 	void	*mlx_id;
 	void	*mlx_win_id;
+	size_t	i;
+	size_t	j;
 
+	i = 0;
 	row = 0;
 //	column = 0;
 	str = load_map(&info);
 	valid_map(str, &info);
 	mlx_id = mlx_init();
-	mlx_win_id = mlx_new_window(mlx_id, info.row * 35, info.column * 35, "test");
+	mlx_win_id = mlx_new_window(mlx_id, info.row * 32, info.column * 32, "test");
+	while (i < info.column)
+	{
+		j = 0;
+		printf("piyo : %zu\n", i);
+		while (j < info.row)
+		{
+			display_map(mlx_id, mlx_win_id, &str[i][j], j, i);
+			printf("j : %zu\n", j);
+			j++;
+		}
+		i++;
+	}
 	mlx_loop(mlx_id);
 	//free処理
 	while (1)
