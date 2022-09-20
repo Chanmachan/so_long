@@ -237,10 +237,7 @@ void	replace_player(t_info *info, int x, int y)
 	if (info->map_info->count_collect == 0 && \
 			info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == 'E' || \
 			info->map_info->map[info->player_info->y_player][info->player_info->x_player + x] == 'E')
-	{
-		//SIGSEGV
 		end_window(info);
-	}
 	else if (info->map_info->count_collect != 0 && \
 			info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == 'E' || \
 			info->map_info->map[info->player_info->y_player][info->player_info->x_player + x] == 'E')
@@ -256,13 +253,13 @@ int	key_hook(int keycode, t_info *info)
 {
 	if (keycode == ESC)
 		end_window(info);
-	else if (keycode == LEFT)
+	else if (keycode == LEFT || keycode == 'a')
 		replace_player(info, -1, 0);
-	else if (keycode == UP)
+	else if (keycode == UP || keycode == 'w')
 		replace_player(info, 0, -1);
-	else if (keycode == RIGHT)
+	else if (keycode == RIGHT || keycode == 'd')
 		replace_player(info, 1, 0);
-	else if (keycode == DOWN)
+	else if (keycode == DOWN || keycode == 's')
 		replace_player(info, 0, 1);
 	return (0);
 }
