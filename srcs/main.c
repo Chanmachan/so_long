@@ -1,8 +1,13 @@
 #include "../includes/so_long.h"
 
-int	exit_failure(void)
+int	exit_failure(int num)
 {
-	ft_putendl_fd("Invalid Map", 1);
+	if (num == 1)
+		ft_putendl_fd("\tusage: ./so_long [file_path]", 1);
+	else if (num == 2)
+		ft_putendl_fd("Invalid Filepath", 1);
+	else
+		ft_putendl_fd("Invalid Map", 1);
 	exit(EXIT_FAILURE);
 }
 
@@ -22,7 +27,7 @@ int	up_and_down_frame(t_info *info)
 	while (info->map_info->map[i][j] != '\0')
 	{
 		if (info->map_info->map[i][j] != '1')
-			exit_failure();
+			exit_failure(0);
 		j++;
 	}
 	j = 0;
@@ -30,7 +35,7 @@ int	up_and_down_frame(t_info *info)
 	while (info->map_info->map[i][j] != '\0')
 	{
 		if (info->map_info->map[i][j] != '1')
-			exit_failure();
+			exit_failure(0);
 		j++;
 	}
 	return (0);
@@ -50,7 +55,7 @@ int	side_frame(t_info *info)
 			if (j == 0 || j == info->map_info->row - 1)
 			{
 				if (info->map_info->map[i][j] != '1')
-					exit_failure();
+					exit_failure(0);
 			}
 			j++;
 		}
@@ -69,7 +74,7 @@ int	compare_length(t_info *info)
 	while (i < info->map_info->column)
 	{
 		if (len != ft_strlen(info->map_info->map[i]))
-			exit_failure();
+			exit_failure(0);
 		i++;
 	}
 	info->map_info->row = len;
@@ -114,10 +119,7 @@ void	count_element(t_info *info, char *str)
 	while (str[i] != '\0')
 	{
 		if (str[i] == 'C')
-		{
-			printf("hoge\n");
 			info->map_info->count_collect += 1;
-		}
 		else if (str[i] == 'E')
 			info->map_info->count_player += 1;
 		else if (str[i] == 'P')
@@ -126,18 +128,16 @@ void	count_element(t_info *info, char *str)
 	}
 }
 
-void	load_map(t_info *info)
+char	*get_line(t_info *info, char *file_path)
 {
 	int		fd;
 	char	*str;
 	char	*line;
 	char	*tmp;
-	char	**ret;
 
-	fd = open("maps/sample.ber", O_RDONLY);
+	fd = open(file_path, O_RDONLY);
 	if (fd == -1)
 		give_error_msg();
-	init_info(info);
 	str = ft_strdup("");
 	while (1)
 	{
@@ -150,6 +150,41 @@ void	load_map(t_info *info)
 		free(line);
 		info->map_info->column++;
 	}
+	return (str);
+}
+
+int	valid_file_path(char *file_path)
+{
+	size_t	len;
+
+	len = ft_strlen(file_path);
+	if (len < 5)
+		exit_failure(2);
+	if (ft_strncmp(file_path + len - 4, ".ber", 4))
+		exit_failure(2);
+	return (0);
+}
+
+void	load_map(t_info *info, char *file_path)
+{
+	char	*str;
+	char	**ret;
+
+	valid_file_path(file_path);
+	init_info(info);
+	str = get_line(info, file_path);
+	/*str = ft_strdup("");
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (line == NULL)
+			break ;
+		tmp = str;
+		str = ft_strjoin(str, line);
+		free(tmp);
+		free(line);
+		info->map_info->column++;
+	}*/
 	count_element(info, str);
 	ret = ft_split(str, '\n');
 	info->map_info->map = ret;
@@ -295,23 +330,29 @@ void	hook(t_info *info)
 //	mlx_expose_hook(info->mlx_win_id, )
 }
 
+/*int	run_player(t_info *info)
+{
+
+}*/
+
 /*__attribute__((destructor))
 static void destructor() {
 	system("leaks -q so_long");
 }*/
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-//	size_t	column;//列(縦)
 	t_info	info;
 
-//	column = 0;
-	load_map(&info);
+	if (argc != 2)
+		exit_failure(1);
+	load_map(&info, argv[1]);
 	valid_map(&info);
 	info.mlx_id = mlx_init();
 	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "so_long");
 	put_map(&info);
 	hook(&info);
+//	mlx_loop_hook(info.mlx_id, run_player, &info);
 	mlx_loop(info.mlx_id);
 	//free処理
 	mlx_destroy_window(info.mlx_id, info.mlx_win_id);
