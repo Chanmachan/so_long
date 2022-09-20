@@ -209,6 +209,23 @@ void	put_map(t_info *info)
 	}
 }
 
+int	end_window(t_info *info)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < info->map_info->column)
+	{
+		free(info->map_info->map[i]);
+		i++;
+	}
+	free(info->map_info->map);
+	free(info->map_info);
+	free(info->player_info);
+	mlx_destroy_window(info->mlx_id, info->mlx_win_id);
+	exit(EXIT_SUCCESS);
+}
+
 void	replace_player(t_info *info, int x, int y)
 {
 	if (info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == '1' || \
@@ -222,7 +239,7 @@ void	replace_player(t_info *info, int x, int y)
 			info->map_info->map[info->player_info->y_player][info->player_info->x_player + x] == 'E')
 	{
 		//SIGSEGV
-		mlx_destroy_display(info->mlx_id);
+		end_window(info);
 	}
 	else if (info->map_info->count_collect != 0 && \
 			info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == 'E' || \
@@ -238,7 +255,7 @@ void	replace_player(t_info *info, int x, int y)
 int	key_hook(int keycode, t_info *info)
 {
 	if (keycode == ESC)
-		mlx_destroy_window(info->mlx_id, info->mlx_win_id);
+		end_window(info);
 	else if (keycode == LEFT)
 		replace_player(info, -1, 0);
 	else if (keycode == UP)
@@ -256,10 +273,10 @@ void	hook(t_info *info)
 //	mlx_expose_hook(info->mlx_win_id, )
 }
 
-/*__attribute__((destructor))
+__attribute__((destructor))
 static void destructor() {
 	system("leaks -q so_long");
-}*/
+}
 
 int	main(void)
 {
