@@ -36,17 +36,6 @@ int	up_and_down_frame(t_info *info)
 	return (0);
 }
 
-void	count_element(t_info *info, char c)
-{
-	if (c == 'C')
-		info->map_info->count_collect += 1;
-	else if (c == 'E')
-		info->map_info->count_player += 1;
-	else if (c == 'P')
-		info->map_info->count_exit += 1;
-	return ;
-}
-
 int	side_frame(t_info *info)
 {
 	size_t	i;
@@ -60,7 +49,6 @@ int	side_frame(t_info *info)
 		{
 			if (j == 0 || j == info->map_info->row - 1)
 			{
-				count_element(info, info->map_info->map[i][j]);
 				if (info->map_info->map[i][j] != '1')
 					exit_failure();
 			}
@@ -116,6 +104,26 @@ void	init_info(t_info *info)
 	info->player_info->y_player = 0;
 }
 
+void	count_element(t_info *info, char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0')
+	{
+		if (str[i] == 'C')
+		{
+			printf("hoge\n");
+			info->map_info->count_collect += 1;
+		}
+		else if (str[i] == 'E')
+			info->map_info->count_player += 1;
+		else if (str[i] == 'P')
+			info->map_info->count_exit += 1;
+		i++;
+	}
+}
+
 void	load_map(t_info *info)
 {
 	int		fd;
@@ -140,9 +148,9 @@ void	load_map(t_info *info)
 		free(line);
 		info->map_info->column++;
 	}
+	count_element(info, str);
 	ret = ft_split(str, '\n');
 	info->map_info->map = ret;
-	printf("strlen : %zu\n", ft_strlen(str));
 	free(str);
 }
 
@@ -171,7 +179,7 @@ void	display_map(t_info *info, char *str, int x, int y)
 	{
 		info->player_info->x_player = x;
 		info->player_info->y_player = y;
-		printf("x : %d\ny : %d\n", x, y);
+//		printf("x : %d\ny : %d\n", x, y);
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, P_FRONT_2, &img_width, &img_height);
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
 	}
@@ -203,31 +211,28 @@ void	put_map(t_info *info)
 
 void	replace_player(t_info *info, int x, int y)
 {
-	printf("before x : %d\n", info->player_info->x_player);
-	printf("before y : %d\n", info->player_info->y_player);
-	info->map_info->map[info->player_info->y_player][info->player_info->x_player] = '0';
-	if (info->player_info->x_player + x < 0 || info->player_info->y_player + y < 0)
-	{
-		printf("end\n");
+	if (info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == '1' || \
+			info->map_info->map[info->player_info->y_player][info->player_info->x_player + x] == '1')
 		return ;
+	if (info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == 'C' || \
+			info->map_info->map[info->player_info->y_player][info->player_info->x_player + x] == 'C')
+		info->map_info->count_collect -= 1;
+	if (info->map_info->count_collect == 0 && \
+			info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == 'E' || \
+			info->map_info->map[info->player_info->y_player][info->player_info->x_player + x] == 'E')
+	{
+		//SIGSEGV
+		mlx_destroy_display(info->mlx_id);
 	}
+	else if (info->map_info->count_collect != 0 && \
+			info->map_info->map[info->player_info->y_player + y][info->player_info->x_player] == 'E' || \
+			info->map_info->map[info->player_info->y_player][info->player_info->x_player + x] == 'E')
+		return ;
+	info->map_info->map[info->player_info->y_player][info->player_info->x_player] = '0';
 	info->player_info->x_player += x;
 	info->player_info->y_player += y;
-	printf("x_player : %d\ny : %d\\n\", info->player_info->y_player\n", info->player_info->x_player, info->player_info->y_player);
 	info->map_info->map[info->player_info->y_player][info->player_info->x_player] = 'P';
-	size_t	i = 0;
-	size_t	j;
-	while (i < info->map_info->column)
-	{
-		j = 0;
-		while (j < info->map_info->row)
-		{
-			printf("%c", info->map_info->map[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
+	put_map(info);
 }
 
 int	key_hook(int keycode, t_info *info)
@@ -272,6 +277,7 @@ int	main(void)
 	//free処理
 	mlx_destroy_window(info.mlx_id, info.mlx_win_id);
 	free(info.map_info);
+	free(info.player_info);
 //	system("leaks -q so_long");
 	return (0);
 }
