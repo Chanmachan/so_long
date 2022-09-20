@@ -102,6 +102,8 @@ void	init_info(t_info *info)
 		give_error_msg();
 	info->element_info->x_player = 0;
 	info->element_info->y_player = 0;
+	info->element_info->x_exit = 0;
+	info->element_info->y_exit = 0;
 }
 
 void	count_element(t_info *info, char *str)
@@ -170,6 +172,8 @@ void	get_put_image(t_info *info, char c, int x, int y)
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, P_FRONT_2, &img_width, &img_height);
 	else if (c == 'E')
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, EXIT_CLOSE, &img_width, &img_height);
+	else if (c == 'O')
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, EXIT_OPEN, &img_width, &img_height);
 	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
 	mlx_destroy_image(info->mlx_id, mlx_img);
 }
@@ -196,10 +200,12 @@ void	display_map(t_info *info, char *str, int x, int y)
 	}
 	else if (*str == 'E')
 	{
-		info->element_info->x_player = x;
-		info->element_info->y_player = y;
+		info->element_info->x_exit = x;
+		info->element_info->y_exit = y;
 		get_put_image(info, *str, x, y);
 	}
+	else if (*str == 'O')
+		get_put_image(info, *str, x, y);
 }
 
 void	put_map(t_info *info)
@@ -237,8 +243,15 @@ int	end_window(t_info *info)
 	exit(EXIT_SUCCESS);
 }
 
+/*void	open_exit_door(t_info *info)
+{
+	info->map_info->map[info->element_info->y_exit][info->element_info->x_exit] == 'O';
+}*/
+
 void	replace_player(t_info *info, int x, int y)
 {
+	if (info->map_info->count_collect == 0)
+		info->map_info->map[info->element_info->y_exit][info->element_info->x_exit] = 'O';
 	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == '1' || \
 			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == '1')
 		return ;
@@ -246,11 +259,9 @@ void	replace_player(t_info *info, int x, int y)
 			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'C')
 	{
 		info->map_info->count_collect -= 1;
-
 	}
-	if (info->map_info->count_collect == 0 && \
-			info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'E' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'E')
+	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'O' || \
+			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'O')
 		end_window(info);
 	else if (info->map_info->count_collect != 0 && \
 			info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'E' || \
@@ -284,10 +295,10 @@ void	hook(t_info *info)
 //	mlx_expose_hook(info->mlx_win_id, )
 }
 
-__attribute__((destructor))
+/*__attribute__((destructor))
 static void destructor() {
 	system("leaks -q so_long");
-}
+}*/
 
 int	main(void)
 {
