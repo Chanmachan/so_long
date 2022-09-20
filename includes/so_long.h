@@ -8,8 +8,16 @@
 # include "../libft/includes/libft.h"
 # include "../minilibx-linux/mlx.h"
 
+//1
+# define WALL "imgs/tiles/map_ground_rock.xpm"
+//0
+# define GROUND "imgs/tiles/map_ground.xpm"
+//C
+# define COLLECT "imgs/tiles/map_collect.xpm"
+//E
 # define EXIT_CLOSE "imgs/exit/map_exit_close.xpm"
 # define EXIT_OPEN "imgs/exit/map_exit_open.xpm"
+//P
 # define P_BACK_1 "imgs/player/map_person_back_1.xpm"
 # define P_BACK_2 "imgs/player/map_person_back_2.xpm"
 # define P_BACK_3 "imgs/player/map_person_back_3.xpm"
