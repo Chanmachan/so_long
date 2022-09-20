@@ -36,6 +36,17 @@ int	up_and_down_frame(t_info *info)
 	return (0);
 }
 
+void	count_element(t_info *info, char c)
+{
+	if (c == 'C')
+		info->map_info->count_collect += 1;
+	else if (c == 'E')
+		info->map_info->count_player += 1;
+	else if (c == 'P')
+		info->map_info->count_exit += 1;
+	return ;
+}
+
 int	side_frame(t_info *info)
 {
 	size_t	i;
@@ -49,6 +60,7 @@ int	side_frame(t_info *info)
 		{
 			if (j == 0 || j == info->map_info->row - 1)
 			{
+				count_element(info, info->map_info->map[i][j]);
 				if (info->map_info->map[i][j] != '1')
 					exit_failure();
 			}
@@ -91,9 +103,17 @@ void	init_info(t_info *info)
 	info->map_info = (t_map_info *) malloc(sizeof(t_map_info));
 	if (info->map_info == NULL)
 		give_error_msg();
+	info->map_info->count_collect = 0;
+	info->map_info->count_player = 0;
+	info->map_info->count_exit = 0;
+	info->map_info->map = NULL;
 	info->map_info->row = 0;
 	info->map_info->column = 0;
-	info->map_info->map = NULL;
+	info->player_info = (t_player_info *) malloc(sizeof(t_player_info));
+	if (info->player_info == NULL)
+		give_error_msg();
+	info->player_info->x_player = 0;
+	info->player_info->y_player = 0;
 }
 
 void	load_map(t_info *info)
@@ -129,33 +149,38 @@ void	load_map(t_info *info)
 void	display_map(t_info *info, char *str, int x, int y)
 {
 	void	*mlx_img;
-	void	*mlx_img2;
-	void	*mlx_img3;
-	void	*mlx_img4;
-	void	*mlx_img5;
 	int		img_width;
 	int		img_height;
 
-	mlx_img = mlx_xpm_file_to_image(info->mlx_id, "imgs/tiles/map_ground_rock.xpm", &img_width, &img_height);
-	mlx_img2 = mlx_xpm_file_to_image(info->mlx_id, "imgs/tiles/map_ground.xpm", &img_width, &img_height);
-	mlx_img3 = mlx_xpm_file_to_image(info->mlx_id, "imgs/tiles/map_collect.xpm", &img_width, &img_height);
-	mlx_img4 = mlx_xpm_file_to_image(info->mlx_id, "imgs/player/map_person_front_2.xpm", &img_width, &img_height);
-	mlx_img5 = mlx_xpm_file_to_image(info->mlx_id, "imgs/exit/map_exit_close.xpm", &img_width, &img_height);
-//	mlx_img3 = mlx_xpm_file_to_image(info->mlx_id, "imgs/map_ground.xpm", &img_width, &img_height);
 	if (*str == '1')
+	{
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, WALL, &img_width, &img_height);
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
+	}
 	else if (*str == '0')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img2, x * 32, y * 32);
+	{
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, GROUND, &img_width, &img_height);
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
+	}
 	else if (*str == 'C')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img3, x * 32, y * 32);
+	{
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, COLLECT, &img_width, &img_height);
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
+	}
 	else if (*str == 'P')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img4, x * 32, y * 32);
+	{
+		info->player_info->x_player = x;
+		info->player_info->y_player = y;
+		printf("x : %d\ny : %d\n", x, y);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, P_FRONT_2, &img_width, &img_height);
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
+	}
 	else if (*str == 'E')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img5, x * 32, y * 32);
+	{
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, EXIT_CLOSE, &img_width, &img_height);
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
+	}
 	mlx_destroy_image(info->mlx_id, mlx_img);
-	mlx_destroy_image(info->mlx_id, mlx_img2);
-	mlx_destroy_image(info->mlx_id, mlx_img3);
-	mlx_destroy_image(info->mlx_id, mlx_img4);
 }
 
 void	put_map(t_info *info)
@@ -176,10 +201,60 @@ void	put_map(t_info *info)
 	}
 }
 
-__attribute__((destructor))
+void	replace_player(t_info *info, int x, int y)
+{
+	printf("before x : %d\n", info->player_info->x_player);
+	printf("before y : %d\n", info->player_info->y_player);
+	info->map_info->map[info->player_info->y_player][info->player_info->x_player] = '0';
+	if (info->player_info->x_player + x < 0 || info->player_info->y_player + y < 0)
+	{
+		printf("end\n");
+		return ;
+	}
+	info->player_info->x_player += x;
+	info->player_info->y_player += y;
+	printf("x_player : %d\ny : %d\\n\", info->player_info->y_player\n", info->player_info->x_player, info->player_info->y_player);
+	info->map_info->map[info->player_info->y_player][info->player_info->x_player] = 'P';
+	size_t	i = 0;
+	size_t	j;
+	while (i < info->map_info->column)
+	{
+		j = 0;
+		while (j < info->map_info->row)
+		{
+			printf("%c", info->map_info->map[i][j]);
+			j++;
+		}
+		printf("\n");
+		i++;
+	}
+}
+
+int	key_hook(int keycode, t_info *info)
+{
+	if (keycode == ESC)
+		mlx_destroy_window(info->mlx_id, info->mlx_win_id);
+	else if (keycode == LEFT)
+		replace_player(info, -1, 0);
+	else if (keycode == UP)
+		replace_player(info, 0, -1);
+	else if (keycode == RIGHT)
+		replace_player(info, 1, 0);
+	else if (keycode == DOWN)
+		replace_player(info, 0, 1);
+	return (0);
+}
+
+void	hook(t_info *info)
+{
+	mlx_hook(info->mlx_win_id, 2, 1L << 0, key_hook, info);
+//	mlx_expose_hook(info->mlx_win_id, )
+}
+
+/*__attribute__((destructor))
 static void destructor() {
 	system("leaks -q so_long");
-}
+}*/
 
 int	main(void)
 {
@@ -190,8 +265,9 @@ int	main(void)
 	load_map(&info);
 	valid_map(&info);
 	info.mlx_id = mlx_init();
-	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "test");
+	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "so_long");
 	put_map(&info);
+	hook(&info);
 	mlx_loop(info.mlx_id);
 	//free処理
 	mlx_destroy_window(info.mlx_id, info.mlx_win_id);
