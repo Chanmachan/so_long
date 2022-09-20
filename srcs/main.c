@@ -130,18 +130,32 @@ void	display_map(t_info *info, char *str, int x, int y)
 {
 	void	*mlx_img;
 	void	*mlx_img2;
+	void	*mlx_img3;
+	void	*mlx_img4;
+	void	*mlx_img5;
 	int		img_width;
 	int		img_height;
 
-	mlx_img = mlx_xpm_file_to_image(info->mlx_id, "imgs/map_ground_rock.xpm", &img_width, &img_height);
-	mlx_img2 = mlx_xpm_file_to_image(info->mlx_id, "imgs/map_ground.xpm", &img_width, &img_height);
+	mlx_img = mlx_xpm_file_to_image(info->mlx_id, "imgs/tiles/map_ground_rock.xpm", &img_width, &img_height);
+	mlx_img2 = mlx_xpm_file_to_image(info->mlx_id, "imgs/tiles/map_ground.xpm", &img_width, &img_height);
+	mlx_img3 = mlx_xpm_file_to_image(info->mlx_id, "imgs/tiles/map_collect.xpm", &img_width, &img_height);
+	mlx_img4 = mlx_xpm_file_to_image(info->mlx_id, "imgs/player/map_person_front_2.xpm", &img_width, &img_height);
+	mlx_img5 = mlx_xpm_file_to_image(info->mlx_id, "imgs/exit/map_exit_close.xpm", &img_width, &img_height);
 //	mlx_img3 = mlx_xpm_file_to_image(info->mlx_id, "imgs/map_ground.xpm", &img_width, &img_height);
 	if (*str == '1')
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
 	else if (*str == '0')
 		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img2, x * 32, y * 32);
+	else if (*str == 'C')
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img3, x * 32, y * 32);
+	else if (*str == 'P')
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img4, x * 32, y * 32);
+	else if (*str == 'E')
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img5, x * 32, y * 32);
 	mlx_destroy_image(info->mlx_id, mlx_img);
 	mlx_destroy_image(info->mlx_id, mlx_img2);
+	mlx_destroy_image(info->mlx_id, mlx_img3);
+	mlx_destroy_image(info->mlx_id, mlx_img4);
 }
 
 void	put_map(t_info *info)
@@ -178,7 +192,7 @@ int	main(void)
 	info.mlx_id = mlx_init();
 	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "test");
 	put_map(&info);
-//	mlx_loop(info.mlx_id);
+	mlx_loop(info.mlx_id);
 	//free処理
 	mlx_destroy_window(info.mlx_id, info.mlx_win_id);
 	free(info.map_info);
