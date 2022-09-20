@@ -5,9 +5,9 @@ int	exit_failure(int num)
 	if (num == 1)
 		ft_putendl_fd("\tusage: ./so_long [file_path]", 1);
 	else if (num == 2)
-		ft_putendl_fd("Invalid Filepath", 1);
+		ft_putendl_fd("Error: Invalid Filepath", 1);
 	else
-		ft_putendl_fd("Invalid Map", 1);
+		ft_putendl_fd("Error: Invalid Map", 1);
 	exit(EXIT_FAILURE);
 }
 
@@ -144,6 +144,8 @@ char	*get_line(t_info *info, char *file_path)
 		line = get_next_line(fd);
 		if (line == NULL)
 			break ;
+		if (line[0] != '1')
+			exit_failure(0);
 		tmp = str;
 		str = ft_strjoin(str, line);
 		free(tmp);
@@ -173,18 +175,6 @@ void	load_map(t_info *info, char *file_path)
 	valid_file_path(file_path);
 	init_info(info);
 	str = get_line(info, file_path);
-	/*str = ft_strdup("");
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		tmp = str;
-		str = ft_strjoin(str, line);
-		free(tmp);
-		free(line);
-		info->map_info->column++;
-	}*/
 	count_element(info, str);
 	ret = ft_split(str, '\n');
 	info->map_info->map = ret;
