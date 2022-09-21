@@ -194,100 +194,117 @@ int	key_hook(int keycode, t_info *info)
 	return (0);
 }
 
-/*void null_surplus(t_info *info)
+void null_surplus(t_info *info)
 {
+	void	*mlx_img;
+	int		img_width;
+	int		img_height;
+
 	if (info->element_info->direction == LEFT)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_L_1, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_LEFT_1, &img_width, &img_height);
 	}
 	if (info->element_info->direction == UP)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_B_1, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_BACK_1, &img_width, &img_height);
 	}
 	if (info->element_info->direction == RIGHT)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_R_1, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_RIGHT_1, &img_width, &img_height);
 	}
 	if (info->element_info->direction == DOWN)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_F_1, info->element_info->x_player * 32, info->element_info->y_player * 32);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_FRONT_1, &img_width, &img_height);
 	}
+	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						mlx_img, info->element_info->x_player * 32, info->element_info->y_player * 32);
+	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
 void eins_surplus(t_info *info)
 {
+	void	*mlx_img;
+	int		img_width;
+	int		img_height;
+
 	if (info->element_info->direction == LEFT)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_L_2, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_LEFT_2, &img_width, &img_height);;;
 	}
 	if (info->element_info->direction == UP)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_B_2, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_BACK_2, &img_width, &img_height);
 	}
 	if (info->element_info->direction == RIGHT)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_R_2, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_RIGHT_2, &img_width, &img_height);
 	}
 	if (info->element_info->direction == DOWN)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_F_2, info->element_info->x_player * 32, info->element_info->y_player * 32);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_FRONT_2, &img_width, &img_height);
 	}
+	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						mlx_img, info->element_info->x_player * 32, info->element_info->y_player * 32);
+	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
 void zwei_surplus(t_info *info)
 {
+	void	*mlx_img;
+	int		img_width;
+	int		img_height;
+
 	if (info->element_info->direction == LEFT)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_L_3, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_LEFT_3, &img_width, &img_height);
 	}
 	if (info->element_info->direction == UP)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_B_3, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_BACK_3, &img_width, &img_height);
 	}
 	if (info->element_info->direction == RIGHT)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_R_3, info->element_info->x_player, info->element_info->y_player);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_RIGHT_3, &img_width, &img_height);
 	}
 	if (info->element_info->direction == DOWN)
 	{
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_F_3, info->element_info->x_player * 32, info->element_info->y_player * 32);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_FRONT_3, &img_width, &img_height);
 	}
+	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						mlx_img, info->element_info->x_player * 32, info->element_info->y_player * 32);
+	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
 int	run_player(t_info *info)
 {
-	if (info->func_count % 3 == 0)
-	{
-		null_surplus(info);
-	}
-	if (info->func_count % 3 == 1)
-	{
+	if (info->func_count % 25000 == 0)
 		eins_surplus(info);
-	}
-	if (info->func_count % 3 == 2)
-	{
+	else if (info->func_count % 50000 == 1)
+		null_surplus(info);
+	else if (info->func_count % 100000 == 2)
 		zwei_surplus(info);
-	}
 	info->func_count++;
+	if (info->func_count > 200000)
+		info->func_count = 0;
 	return (0);
-}*/
+}
 
 void	hook(t_info *info)
 {
+	mlx_loop_hook(info->mlx_id, run_player, info);
 	mlx_hook(info->mlx_win_id, 2, 1L << 0, key_hook, info);
-//	mlx_loop_hook(info->mlx_id, run_player, &info);
 //	mlx_expose_hook(info->mlx_win_id, )
 }
 
