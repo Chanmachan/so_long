@@ -103,7 +103,7 @@ void	display_map(t_info *info, char *str, int x, int y)
 		get_put_image(info, *str, x, y);
 }
 
-void	put_map(t_info *info)
+int	put_map(t_info *info)
 {
 	size_t	i;
 	size_t	j;
@@ -120,4 +120,5 @@ void	put_map(t_info *info)
 		}
 		i++;
 	}
+	return (0);
 }

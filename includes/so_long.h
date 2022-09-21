@@ -107,7 +107,7 @@ void	init_info(t_info *info);
 //put_map.c
 void	get_put_image(t_info *info, char c, int x, int y);
 void	display_map(t_info *info, char *str, int x, int y);
-void	put_map(t_info *info);
+int	put_map(t_info *info);
 
 //move_left.c
 void	move_left(t_info *info);
