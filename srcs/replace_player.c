@@ -1,5 +1,12 @@
 #include "../includes/so_long.h"
 
+void	display_steps(t_info *info)
+{
+	info->pedometer++;
+	ft_putnbr_fd(info->pedometer, 1);
+	ft_putchar_fd('\n', 1);
+}
+
 static void	if_move_to_c(t_info *info, int x, int y)
 {
 	if (info->map_info->map[info->element_info->y_player + y] \
@@ -16,7 +23,10 @@ static int	if_move_to_o(t_info *info, int x, int y)
 				[info->element_info->x_player] == 'O' || \
 			info->map_info->map[info->element_info->y_player] \
 								[info->element_info->x_player + x] == 'O')
+	{
+		ft_putendl_fd("Congrats GAME CLEAR!!", 1);
 		end_window(info);
+	}
 	else if (info->map_info->count_collect != 0 && \
 			info->map_info->map[info->element_info->y_player + y] \
 								[info->element_info->x_player] == 'E' || \
@@ -52,5 +62,6 @@ void	replace_player(t_info *info, int x, int y, char *img_path)
 		map[info->element_info->y_player] \
 			[info->element_info->x_player] = 'P';
 	info->img_path = img_path;
+	display_steps(info);
 	put_map(info);
 }
