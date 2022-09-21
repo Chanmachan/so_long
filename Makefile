@@ -10,6 +10,7 @@ SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILE))
 
 LIBFT = ./libft
 GNL = ./gnl
+MLX = ./minilibx-linux
 
 INCLUDES = ./includes/so_long.h
 
@@ -19,7 +20,7 @@ LIBFT_ARC = ./libft/libft.a
 GNL_ARC = ./gnl/gnl.a
 MLX_ARC = ./minilibx-linux/libmlx.a ./minilibx-linux/libmlx_Darwin.a
 
-CFLAGS = -Wall -Werror -Wextra -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit -fsanitize=address
+CFLAGS = -Wall -Werror -Wextra -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit #-fsanitize=address
 #MP -MMD
 
 all: $(NAME)
@@ -32,6 +33,7 @@ test: $(OBJS)
 $(NAME): $(OBJS)
 		$(MAKE) -C $(LIBFT)
 		$(MAKE) -C $(GNL)
+		$(MAKE) -C $(MLX)
 		$(CC) $(CFLAGS) $(MLX_ARC) $(LIBFT_ARC) $(GNL_ARC) $^ -o $(NAME)
 #$(CC) $(CFLAGS) $(GNL_ARC) $(MLX_ARC) $(LIBFT_ARC) $< -o $(NAME)
 
@@ -43,6 +45,7 @@ clean:
 		$(RM) -r $(OBJS_DIR)
 		$(MAKE) -C $(LIBFT) clean
 		$(MAKE) -C $(GNL) clean
+		$(MAKE) -C $(MLX) clean
 
 fclean: clean
 		$(MAKE) -C $(LIBFT) fclean
