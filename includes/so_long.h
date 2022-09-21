@@ -31,32 +31,13 @@
 # define P_RIGHT_2 "imgs/player/map_person_right_2.xpm"
 # define P_RIGHT_3 "imgs/player/map_person_right_3.xpm"
 
-int	exit_failure(int num);
-int	give_error_msg(void);
-int	up_and_down_frame(t_info *info);
-int	side_frame(t_info *info);
-int	compare_length(t_info *info);
-int	valid_map(t_info *info);
-void	init_info(t_info *info);
-void	count_element(t_info *info, char *str);
-char	*get_line(t_info *info, char *file_path);
-int	valid_file_path(char *file_path);
-void	load_map(t_info *info, char *file_path);
-void	get_put_image(t_info *info, char c, int x, int y);
-void	display_map(t_info *info, char *str, int x, int y);
-void	put_map(t_info *info);
-int	end_window(t_info *info);
-void	replace_player(t_info *info, int x, int y);
-int	key_hook(int keycode, t_info *info);
-void	hook(t_info *info);
-
 //key_event
+
 # define ESC 65307
 # define LEFT 65361
 # define UP 65362
 # define RIGHT 65363
 # define DOWN 65364
-
 typedef struct s_map_info
 {
 	int		count_collect;
@@ -83,5 +64,29 @@ typedef struct s_info
 	t_element_info	*element_info;
 	//	size_t
 } 				t_info;
+
+//error.c
+int	exit_failure(int num);
+int	give_error_msg(void);
+//valid_map.c
+int	up_and_down_frame(t_info *info);
+int	side_frame(t_info *info);
+int	compare_length(t_info *info);
+int	valid_map(t_info *info);
+//load_map.c
+void	count_element(t_info *info, char *str);
+char	*get_line(t_info *info, char *file_path);
+int	valid_file_path(char *file_path);
+void	load_map(t_info *info, char *file_path);
+void	get_put_image(t_info *info, char c, int x, int y);
+//init.c
+void	init_info(t_info *info);
+//put_map.c
+void	display_map(t_info *info, char *str, int x, int y);
+void	put_map(t_info *info);
+int	end_window(t_info *info);
+void	replace_player(t_info *info, int x, int y);
+int	key_hook(int keycode, t_info *info);
+void	hook(t_info *info);
 
 #endif
