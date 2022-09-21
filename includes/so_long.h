@@ -50,6 +50,7 @@ typedef struct s_map_info
 
 typedef struct s_element_info
 {
+	int		direction;
 	int		x_player;
 	int		y_player;
 	int		x_exit;
@@ -60,9 +61,10 @@ typedef struct s_info
 {
 	void			*mlx_id;
 	void			*mlx_win_id;
+	char 			*img_path;
+	size_t			func_count;
 	t_map_info		*map_info;
 	t_element_info	*element_info;
-	//	size_t
 } 				t_info;
 
 //error.c
@@ -78,14 +80,19 @@ void	count_element(t_info *info, char *str);
 char	*get_line(t_info *info, char *file_path);
 int	valid_file_path(char *file_path);
 void	load_map(t_info *info, char *file_path);
-void	get_put_image(t_info *info, char c, int x, int y);
 //init.c
 void	init_info(t_info *info);
 //put_map.c
+void	get_put_image(t_info *info, char c, int x, int y);
 void	display_map(t_info *info, char *str, int x, int y);
 void	put_map(t_info *info);
+
+//move_left.c
+void	move_left(t_info *info);
+
+int	if_move_to_O(t_info *info, int x, int y);
 int	end_window(t_info *info);
-void	replace_player(t_info *info, int x, int y);
+void	replace_player(t_info *info, int x, int y, char *img_path);
 int	key_hook(int keycode, t_info *info);
 void	hook(t_info *info);
 

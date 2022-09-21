@@ -4,6 +4,8 @@ void	init_info(t_info *info)
 {
 	info->mlx_id = NULL;
 	info->mlx_win_id = NULL;
+	info->img_path = P_FRONT_2;
+	info->func_count = 0;
 	info->map_info = (t_map_info *) malloc(sizeof(t_map_info));
 	if (info->map_info == NULL)
 		give_error_msg();
@@ -16,6 +18,7 @@ void	init_info(t_info *info)
 	info->element_info = (t_element_info *) malloc(sizeof(t_element_info));
 	if (info->element_info == NULL)
 		give_error_msg();
+	info->element_info->direction = DOWN;
 	info->element_info->x_player = 0;
 	info->element_info->y_player = 0;
 	info->element_info->x_exit = 0;
