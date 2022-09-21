@@ -1,5 +1,5 @@
-#ifndef SO_LONG_SO_LONG_H
-# define SO_LONG_SO_LONG_H
+#ifndef SO_LONG_H
+# define SO_LONG_H
 
 # include <stdio.h>
 # include <fcntl.h>
@@ -61,32 +61,30 @@ typedef struct s_info
 {
 	void			*mlx_id;
 	void			*mlx_win_id;
-	char 			*img_path;
+	char			*img_path;
 	size_t			func_count;
 	t_map_info		*map_info;
 	t_element_info	*element_info;
-//	t_mlx_img		*mlx_img;
-} 				t_info;
+}				t_info;
 
 //error.c
-int	exit_failure(int num);
-int	give_error_msg(void);
+int		exit_failure(int num);
+int		give_error_msg(void);
 //valid_map.c
-int	valid_map(t_info *info);
+int		valid_map(t_info *info);
 //load_map.c
 void	load_map(t_info *info, char *file_path);
 //init.c
 void	init_info(t_info *info);
 //put_map.c
-int	put_map(t_info *info);
+int		put_map(t_info *info);
 //run_player.c
-int	run_player(t_info *info);
-
-void	if_move_to_c(t_info *info, int x, int y);
-int	if_move_to_o(t_info *info, int x, int y);
-int	end_window(t_info *info);
+int		run_player(t_info *info);
+//replace_player.c
 void	replace_player(t_info *info, int x, int y, char *img_path);
-int	key_hook(int keycode, t_info *info);
+
+int		end_window(t_info *info);
+int		key_hook(int keycode, t_info *info);
 void	hook(t_info *info);
 
 #endif
