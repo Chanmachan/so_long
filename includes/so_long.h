@@ -32,12 +32,12 @@
 # define P_RIGHT_3 "imgs/player/map_person_right_3.xpm"
 
 //key_event
-
 # define ESC 65307
 # define LEFT 65361
 # define UP 65362
 # define RIGHT 65363
 # define DOWN 65364
+
 typedef struct s_map_info
 {
 	int		count_collect;
@@ -57,27 +57,6 @@ typedef struct s_element_info
 	int		y_exit;
 }				t_element_info;
 
-/*typedef struct s_mlx_img
-{
-	void	*WALL_IMG;
-	void	*GROUND_IMG;
-	void	*COLLECT_IMG;
-	void	*EXIT_C_IMG;
-	void	*EXIT_O_IMG;
-	void	*P_B_1;
-	void	*P_B_2;
-	void	*P_B_3;
-	void	*P_F_1;
-	void	*P_F_2;
-	void	*P_F_3;
-	void	*P_L_1;
-	void	*P_L_2;
-	void	*P_L_3;
-	void	*P_R_1;
-	void	*P_R_2;
-	void	*P_R_3;
-}				t_mlx_img;*/
-
 typedef struct s_info
 {
 	void			*mlx_id;
@@ -93,26 +72,18 @@ typedef struct s_info
 int	exit_failure(int num);
 int	give_error_msg(void);
 //valid_map.c
-int	up_and_down_frame(t_info *info);
-int	side_frame(t_info *info);
-int	compare_length(t_info *info);
 int	valid_map(t_info *info);
 //load_map.c
-void	count_element(t_info *info, char *str);
-char	*get_line(t_info *info, char *file_path);
-int	valid_file_path(char *file_path);
 void	load_map(t_info *info, char *file_path);
 //init.c
 void	init_info(t_info *info);
 //put_map.c
-void	get_put_image(t_info *info, char c, int x, int y);
-void	display_map(t_info *info, char *str, int x, int y);
 int	put_map(t_info *info);
+//run_player.c
+int	run_player(t_info *info);
 
-//move_left.c
-void	move_left(t_info *info);
-
-int	if_move_to_O(t_info *info, int x, int y);
+void	if_move_to_c(t_info *info, int x, int y);
+int	if_move_to_o(t_info *info, int x, int y);
 int	end_window(t_info *info);
 void	replace_player(t_info *info, int x, int y, char *img_path);
 int	key_hook(int keycode, t_info *info);

@@ -1,6 +1,6 @@
 #include "../includes/so_long.h"
 
-void	count_element(t_info *info, char *str)
+static void	count_element(t_info *info, char *str)
 {
 	size_t	i;
 
@@ -17,7 +17,7 @@ void	count_element(t_info *info, char *str)
 	}
 }
 
-char	*get_line(t_info *info, char *file_path)
+static char	*get_line(t_info *info, char *file_path)
 {
 	int		fd;
 	char	*str;

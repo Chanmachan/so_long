@@ -1,6 +1,6 @@
 #include "../includes/so_long.h"
 
-void	get_put_image(t_info *info, char c, int x, int y)
+static void	get_put_image(t_info *info, char c, int x, int y)
 {
 	void	*mlx_img;
 	int		img_width;
@@ -29,7 +29,7 @@ void	get_put_image(t_info *info, char c, int x, int y)
 	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
-void	display_map(t_info *info, char *str, int x, int y)
+static void	display_map(t_info *info, char *str, int x, int y)
 {
 	if (*str == '1')
 		get_put_image(info, *str, x, y);

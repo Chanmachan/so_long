@@ -1,6 +1,6 @@
 #include "../includes/so_long.h"
 
-int	up_and_down_frame(t_info *info)
+static int	up_and_down_frame(t_info *info)
 {
 	size_t	i;
 	size_t	j;
@@ -24,7 +24,7 @@ int	up_and_down_frame(t_info *info)
 	return (0);
 }
 
-int	side_frame(t_info *info)
+static int	side_frame(t_info *info)
 {
 	size_t	i;
 	size_t	j;
@@ -47,7 +47,7 @@ int	side_frame(t_info *info)
 	return (0);
 }
 
-int	compare_length(t_info *info)
+static int	compare_length(t_info *info)
 {
 	size_t	i;
 	size_t	len;
