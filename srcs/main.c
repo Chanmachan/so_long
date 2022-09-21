@@ -10,16 +10,14 @@ int	end_window(t_info *info)
 		free(info->map_info->map[i]);
 		i++;
 	}
-//	destroy_imgs(info);
 	free(info->map_info->map);
 	free(info->map_info);
 	free(info->element_info);
-//	free(info->mlx_img);
 	mlx_destroy_window(info->mlx_id, info->mlx_win_id);
 	exit(EXIT_SUCCESS);
 }
 
-void	if_move_to_C(t_info *info, int x, int y)
+void	if_move_to_c(t_info *info, int x, int y)
 {
 	if (info->map_info->map[info->element_info->y_player + y] \
 							[info->element_info->x_player] == 'C' || \
@@ -28,7 +26,7 @@ void	if_move_to_C(t_info *info, int x, int y)
 		info->map_info->count_collect -= 1;
 }
 
-int	if_move_to_O(t_info *info, int x, int y)
+int	if_move_to_o(t_info *info, int x, int y)
 {
 	if (info->map_info-> \
 			map[info->element_info->y_player + y] \
@@ -59,8 +57,8 @@ void	replace_player(t_info *info, int x, int y, char *img_path)
 				map[info->element_info->y_player] \
 					[info->element_info->x_player + x] == '1')
 		return ;
-	if_move_to_C(info, x, y);
-	if (if_move_to_O(info, x, y))
+	if_move_to_c(info, x, y);
+	if (if_move_to_o(info, x, y))
 		return ;
 	info->map_info-> \
 		map[info->element_info->y_player] \
@@ -101,96 +99,75 @@ int	key_hook(int keycode, t_info *info)
 	return (0);
 }
 
-void null_surplus(t_info *info)
+void	null_surplus(t_info *info)
 {
 	void	*mlx_img;
 	int		img_width;
 	int		img_height;
 
 	if (info->element_info->direction == LEFT)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_LEFT_1, &img_width, &img_height);
-	}
 	if (info->element_info->direction == UP)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_BACK_1, &img_width, &img_height);
-	}
 	if (info->element_info->direction == RIGHT)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_RIGHT_1, &img_width, &img_height);
-	}
 	if (info->element_info->direction == DOWN)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_FRONT_1, &img_width, &img_height);
-	}
 	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						mlx_img, info->element_info->x_player * 32, info->element_info->y_player * 32);
+						mlx_img, info->element_info->x_player * 32, \
+								info->element_info->y_player * 32);
 	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
-void eins_surplus(t_info *info)
+void	eins_surplus(t_info *info)
 {
 	void	*mlx_img;
 	int		img_width;
 	int		img_height;
 
 	if (info->element_info->direction == LEFT)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			P_LEFT_2, &img_width, &img_height);;;
-	}
+			P_LEFT_2, &img_width, &img_height);
 	if (info->element_info->direction == UP)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_BACK_2, &img_width, &img_height);
-	}
 	if (info->element_info->direction == RIGHT)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_RIGHT_2, &img_width, &img_height);
-	}
 	if (info->element_info->direction == DOWN)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_FRONT_2, &img_width, &img_height);
-	}
 	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						mlx_img, info->element_info->x_player * 32, info->element_info->y_player * 32);
+						mlx_img, info->element_info->x_player * 32, \
+								info->element_info->y_player * 32);
 	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
-void zwei_surplus(t_info *info)
+void	zwei_surplus(t_info *info)
 {
 	void	*mlx_img;
 	int		img_width;
 	int		img_height;
 
 	if (info->element_info->direction == LEFT)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_LEFT_3, &img_width, &img_height);
-	}
 	if (info->element_info->direction == UP)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_BACK_3, &img_width, &img_height);
-	}
 	if (info->element_info->direction == RIGHT)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_RIGHT_3, &img_width, &img_height);
-	}
 	if (info->element_info->direction == DOWN)
-	{
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			P_FRONT_3, &img_width, &img_height);
-	}
 	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						mlx_img, info->element_info->x_player * 32, info->element_info->y_player * 32);
+						mlx_img, info->element_info->x_player * 32, \
+								info->element_info->y_player * 32);
 	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
@@ -214,7 +191,6 @@ void	hook(t_info *info)
 	mlx_hook(info->mlx_win_id, 2, 1L << 0, key_hook, info);
 	mlx_hook(info->mlx_win_id, 17, 1L << 0, end_window, info);
 	mlx_expose_hook(info->mlx_win_id, put_map, info);
-//	mlx_expose_hook(info->mlx_win_id, )
 }
 
 int	valid_file_path(char *file_path)
