@@ -44,24 +44,11 @@ char	*get_line(t_info *info, char *file_path)
 	return (str);
 }
 
-int	valid_file_path(char *file_path)
-{
-	size_t	len;
-
-	len = ft_strlen(file_path);
-	if (len < 5)
-		exit_failure(2);
-	if (ft_strncmp(file_path + len - 4, ".ber", 4))
-		exit_failure(2);
-	return (0);
-}
-
 void	load_map(t_info *info, char *file_path)
 {
 	char	*str;
 	char	**ret;
 
-	valid_file_path(file_path);
 	init_info(info);
 	str = get_line(info, file_path);
 	count_element(info, str);
