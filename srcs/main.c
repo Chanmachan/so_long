@@ -305,6 +305,8 @@ void	hook(t_info *info)
 {
 	mlx_loop_hook(info->mlx_id, run_player, info);
 	mlx_hook(info->mlx_win_id, 2, 1L << 0, key_hook, info);
+	mlx_hook(info->mlx_win_id, 17, 1L << 0, end_window, info);
+	mlx_expose_hook(info->mlx_win_id, put_map, info);
 //	mlx_expose_hook(info->mlx_win_id, )
 }
 
@@ -325,13 +327,8 @@ int	main(int argc, char **argv)
 	info.mlx_win_id = mlx_new_window(info.mlx_id, \
 				info.map_info->row * 32, info.map_info->column * 32, "so_long");
 	put_map(&info);
-//	mlx_loop_hook(info.mlx_id, run_player, &info);
 	hook(&info);
 	mlx_loop(info.mlx_id);
-	//free処理
-	mlx_destroy_window(info.mlx_id, info.mlx_win_id);
-	free(info.map_info);
-	free(info.element_info);
-//	system("leaks -q so_long");
+	end_window(&info);
 	return (0);
 }
