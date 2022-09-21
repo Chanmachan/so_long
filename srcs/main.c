@@ -1,6 +1,6 @@
 #include "../includes/so_long.h"
 
-int	exit_failure(int num)
+/*int	exit_failure(int num)
 {
 	if (num == 1)
 		ft_putendl_fd("\tusage: ./so_long [file_path]", 1);
@@ -15,9 +15,9 @@ int	give_error_msg(void)
 {
 	perror("Error");
 	exit(EXIT_FAILURE);
-}
+}*/
 
-int	up_and_down_frame(t_info *info)
+/*int	up_and_down_frame(t_info *info)
 {
 	size_t	i;
 	size_t	j;
@@ -83,13 +83,17 @@ int	compare_length(t_info *info)
 
 int	valid_map(t_info *info)
 {
+	if (info->map_info->count_collect < 1 || \
+		info->map_info->count_player != 1 || \
+		info->map_info->count_exit != 1)
+		exit_failure(0);
 	compare_length(info);
 	up_and_down_frame(info);
 	side_frame(info);
 	return (0);
-}
+}*/
 
-void	init_info(t_info *info)
+/*void	init_info(t_info *info)
 {
 	info->mlx_id = NULL;
 	info->mlx_win_id = NULL;
@@ -109,9 +113,9 @@ void	init_info(t_info *info)
 	info->element_info->y_player = 0;
 	info->element_info->x_exit = 0;
 	info->element_info->y_exit = 0;
-}
+}*/
 
-void	count_element(t_info *info, char *str)
+/*void	count_element(t_info *info, char *str)
 {
 	size_t	i;
 
@@ -179,44 +183,45 @@ void	load_map(t_info *info, char *file_path)
 	ret = ft_split(str, '\n');
 	info->map_info->map = ret;
 	free(str);
-}
+}*/
 
-void	get_put_image(t_info *info, char c, int x, int y)
+/*void	get_put_image(t_info *info, char c, int x, int y)
 {
 	void	*mlx_img;
 	int		img_width;
 	int		img_height;
 
 	if (c == '1')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, WALL, &img_width, &img_height);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			WALL, &img_width, &img_height);
 	else if (c == '0')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, GROUND, &img_width, &img_height);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			GROUND, &img_width, &img_height);
 	else if (c == 'C')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, COLLECT, &img_width, &img_height);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			COLLECT, &img_width, &img_height);
 	else if (c == 'P')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, P_FRONT_2, &img_width, &img_height);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			P_FRONT_2, &img_width, &img_height);
 	else if (c == 'E')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, EXIT_CLOSE, &img_width, &img_height);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			EXIT_CLOSE, &img_width, &img_height);
 	else if (c == 'O')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, EXIT_OPEN, &img_width, &img_height);
-	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, mlx_img, x * 32, y * 32);
+		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
+			EXIT_OPEN, &img_width, &img_height);
+	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						mlx_img, x * 32, y * 32);
 	mlx_destroy_image(info->mlx_id, mlx_img);
 }
 
 void	display_map(t_info *info, char *str, int x, int y)
 {
 	if (*str == '1')
-	{
 		get_put_image(info, *str, x, y);
-	}
 	else if (*str == '0')
-	{
 		get_put_image(info, *str, x, y);
-	}
 	else if (*str == 'C')
-	{
 		get_put_image(info, *str, x, y);
-	}
 	else if (*str == 'P')
 	{
 		info->element_info->x_player = x;
@@ -249,7 +254,7 @@ void	put_map(t_info *info)
 		}
 		i++;
 	}
-}
+}*/
 
 int	end_window(t_info *info)
 {
@@ -268,10 +273,24 @@ int	end_window(t_info *info)
 	exit(EXIT_SUCCESS);
 }
 
-/*void	open_exit_door(t_info *info)
+void	if_move_to_C(t_info *info, int x, int y)
 {
-	info->map_info->map[info->element_info->y_exit][info->element_info->x_exit] == 'O';
-}*/
+	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'C' || \
+			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'C')
+		info->map_info->count_collect -= 1;
+}
+
+int	if_move_to_O(t_info *info, int x, int y)
+{
+	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'O' || \
+			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'O')
+		end_window(info);
+	else if (info->map_info->count_collect != 0 && \
+			info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'E' || \
+			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'E')
+		return (1);
+	return (0);
+}
 
 void	replace_player(t_info *info, int x, int y)
 {
@@ -280,17 +299,8 @@ void	replace_player(t_info *info, int x, int y)
 	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == '1' || \
 			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == '1')
 		return ;
-	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'C' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'C')
-	{
-		info->map_info->count_collect -= 1;
-	}
-	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'O' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'O')
-		end_window(info);
-	else if (info->map_info->count_collect != 0 && \
-			info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'E' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'E')
+	if_move_to_C(info, x, y);
+	if (if_move_to_O(info, x, y))
 		return ;
 	info->map_info->map[info->element_info->y_player][info->element_info->x_player] = '0';
 	info->element_info->x_player += x;
