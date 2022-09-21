@@ -1,190 +1,5 @@
 #include "../includes/so_long.h"
 
-/*int	exit_failure(int num)
-{
-	if (num == 1)
-		ft_putendl_fd("\tusage: ./so_long [file_path]", 1);
-	else if (num == 2)
-		ft_putendl_fd("Error: Invalid Filepath", 1);
-	else
-		ft_putendl_fd("Error: Invalid Map", 1);
-	exit(EXIT_FAILURE);
-}
-
-int	give_error_msg(void)
-{
-	perror("Error");
-	exit(EXIT_FAILURE);
-}*/
-
-/*int	up_and_down_frame(t_info *info)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	j = 0;
-	while (info->map_info->map[i][j] != '\0')
-	{
-		if (info->map_info->map[i][j] != '1')
-			exit_failure(0);
-		j++;
-	}
-	j = 0;
-	i = info->map_info->column - 1;
-	while (info->map_info->map[i][j] != '\0')
-	{
-		if (info->map_info->map[i][j] != '1')
-			exit_failure(0);
-		j++;
-	}
-	return (0);
-}
-
-int	side_frame(t_info *info)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 1;
-	while (i < info->map_info->column - 1)
-	{
-		j = 0;
-		while (j < info->map_info->row)
-		{
-			if (j == 0 || j == info->map_info->row - 1)
-			{
-				if (info->map_info->map[i][j] != '1')
-					exit_failure(0);
-			}
-			j++;
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	compare_length(t_info *info)
-{
-	size_t	i;
-	size_t	len;
-
-	i = 0;
-	len = ft_strlen(info->map_info->map[i]);
-	while (i < info->map_info->column)
-	{
-		if (len != ft_strlen(info->map_info->map[i]))
-			exit_failure(0);
-		i++;
-	}
-	info->map_info->row = len;
-	return (0);
-}
-
-int	valid_map(t_info *info)
-{
-	if (info->map_info->count_collect < 1 || \
-		info->map_info->count_player != 1 || \
-		info->map_info->count_exit != 1)
-		exit_failure(0);
-	compare_length(info);
-	up_and_down_frame(info);
-	side_frame(info);
-	return (0);
-}*/
-
-/*void	init_info(t_info *info)
-{
-	info->mlx_id = NULL;
-	info->mlx_win_id = NULL;
-	info->map_info = (t_map_info *) malloc(sizeof(t_map_info));
-	if (info->map_info == NULL)
-		give_error_msg();
-	info->map_info->count_collect = 0;
-	info->map_info->count_player = 0;
-	info->map_info->count_exit = 0;
-	info->map_info->map = NULL;
-	info->map_info->row = 0;
-	info->map_info->column = 0;
-	info->element_info = (t_element_info *) malloc(sizeof(t_element_info));
-	if (info->element_info == NULL)
-		give_error_msg();
-	info->element_info->x_player = 0;
-	info->element_info->y_player = 0;
-	info->element_info->x_exit = 0;
-	info->element_info->y_exit = 0;
-}*/
-
-/*void	count_element(t_info *info, char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != '\0')
-	{
-		if (str[i] == 'C')
-			info->map_info->count_collect += 1;
-		else if (str[i] == 'E')
-			info->map_info->count_player += 1;
-		else if (str[i] == 'P')
-			info->map_info->count_exit += 1;
-		i++;
-	}
-}
-
-char	*get_line(t_info *info, char *file_path)
-{
-	int		fd;
-	char	*str;
-	char	*line;
-	char	*tmp;
-
-	fd = open(file_path, O_RDONLY);
-	if (fd == -1)
-		give_error_msg();
-	str = ft_strdup("");
-	while (1)
-	{
-		line = get_next_line(fd);
-		if (line == NULL)
-			break ;
-		if (line[0] != '1')
-			exit_failure(0);
-		tmp = str;
-		str = ft_strjoin(str, line);
-		free(tmp);
-		free(line);
-		info->map_info->column++;
-	}
-	return (str);
-}
-
-int	valid_file_path(char *file_path)
-{
-	size_t	len;
-
-	len = ft_strlen(file_path);
-	if (len < 5)
-		exit_failure(2);
-	if (ft_strncmp(file_path + len - 4, ".ber", 4))
-		exit_failure(2);
-	return (0);
-}
-
-void	load_map(t_info *info, char *file_path)
-{
-	char	*str;
-	char	**ret;
-
-	valid_file_path(file_path);
-	init_info(info);
-	str = get_line(info, file_path);
-	count_element(info, str);
-	ret = ft_split(str, '\n');
-	info->map_info->map = ret;
-	free(str);
-}*/
-
 /*void	get_put_image(t_info *info, char c, int x, int y)
 {
 	void	*mlx_img;
@@ -256,6 +71,28 @@ void	put_map(t_info *info)
 	}
 }*/
 
+/*void	destroy_imgs(t_info *info)
+{
+	mlx_destroy_image(info->mlx_id, info->mlx_img->WALL_IMG);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->GROUND_IMG);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->COLLECT_IMG);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->EXIT_C_IMG);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->EXIT_O_IMG);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_1);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_2);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_3);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_F_1);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_F_2);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_F_3);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_L_1);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_L_2);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_L_3);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_1);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_R_1);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_R_2);
+	mlx_destroy_image(info->mlx_id, info->mlx_img->P_R_3);
+}*/
+
 int	end_window(t_info *info)
 {
 	size_t	i;
@@ -266,46 +103,67 @@ int	end_window(t_info *info)
 		free(info->map_info->map[i]);
 		i++;
 	}
+//	destroy_imgs(info);
 	free(info->map_info->map);
 	free(info->map_info);
 	free(info->element_info);
+//	free(info->mlx_img);
 	mlx_destroy_window(info->mlx_id, info->mlx_win_id);
 	exit(EXIT_SUCCESS);
 }
 
 void	if_move_to_C(t_info *info, int x, int y)
 {
-	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'C' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'C')
+	if (info->map_info->map[info->element_info->y_player + y] \
+							[info->element_info->x_player] == 'C' || \
+			info->map_info->map[info->element_info->y_player] \
+								[info->element_info->x_player + x] == 'C')
 		info->map_info->count_collect -= 1;
 }
 
 int	if_move_to_O(t_info *info, int x, int y)
 {
-	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'O' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'O')
+	if (info->map_info-> \
+			map[info->element_info->y_player + y] \
+				[info->element_info->x_player] == 'O' || \
+			info->map_info->map[info->element_info->y_player] \
+								[info->element_info->x_player + x] == 'O')
 		end_window(info);
 	else if (info->map_info->count_collect != 0 && \
-			info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == 'E' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == 'E')
+			info->map_info->map[info->element_info->y_player + y] \
+								[info->element_info->x_player] == 'E' || \
+			info->map_info-> \
+				map[info->element_info->y_player] \
+								[info->element_info->x_player + x] == 'E')
 		return (1);
 	return (0);
 }
 
-void	replace_player(t_info *info, int x, int y)
+void	replace_player(t_info *info, int x, int y, char *img_path)
 {
 	if (info->map_info->count_collect == 0)
-		info->map_info->map[info->element_info->y_exit][info->element_info->x_exit] = 'O';
-	if (info->map_info->map[info->element_info->y_player + y][info->element_info->x_player] == '1' || \
-			info->map_info->map[info->element_info->y_player][info->element_info->x_player + x] == '1')
+		info->map_info-> \
+			map[info->element_info->y_exit] \
+				[info->element_info->x_exit] = 'O';
+	if (info->map_info-> \
+			map[info->element_info->y_player + y] \
+				[info->element_info->x_player] == '1' || \
+			info->map_info-> \
+				map[info->element_info->y_player] \
+					[info->element_info->x_player + x] == '1')
 		return ;
 	if_move_to_C(info, x, y);
 	if (if_move_to_O(info, x, y))
 		return ;
-	info->map_info->map[info->element_info->y_player][info->element_info->x_player] = '0';
+	info->map_info-> \
+		map[info->element_info->y_player] \
+			[info->element_info->x_player] = '0';
 	info->element_info->x_player += x;
 	info->element_info->y_player += y;
-	info->map_info->map[info->element_info->y_player][info->element_info->x_player] = 'P';
+	info->map_info-> \
+		map[info->element_info->y_player] \
+			[info->element_info->x_player] = 'P';
+	info->img_path = img_path;
 	put_map(info);
 }
 
@@ -314,26 +172,124 @@ int	key_hook(int keycode, t_info *info)
 	if (keycode == ESC)
 		end_window(info);
 	else if (keycode == LEFT || keycode == 'a')
-		replace_player(info, -1, 0);
+	{
+		info->element_info->direction = LEFT;
+		replace_player(info, -1, 0, P_LEFT_1);
+	}
 	else if (keycode == UP || keycode == 'w')
-		replace_player(info, 0, -1);
+	{
+		info->element_info->direction = UP;
+		replace_player(info, 0, -1, P_BACK_1);
+	}
 	else if (keycode == RIGHT || keycode == 'd')
-		replace_player(info, 1, 0);
+	{
+		info->element_info->direction = RIGHT;
+		replace_player(info, 1, 0, P_RIGHT_1);
+	}
 	else if (keycode == DOWN || keycode == 's')
-		replace_player(info, 0, 1);
+	{
+		info->element_info->direction = DOWN;
+		replace_player(info, 0, 1, P_FRONT_1);
+	}
 	return (0);
 }
+
+/*void null_surplus(t_info *info)
+{
+	if (info->element_info->direction == LEFT)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_L_1, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == UP)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_B_1, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == RIGHT)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_R_1, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == DOWN)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_F_1, info->element_info->x_player * 32, info->element_info->y_player * 32);
+	}
+}
+
+void eins_surplus(t_info *info)
+{
+	if (info->element_info->direction == LEFT)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_L_2, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == UP)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_B_2, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == RIGHT)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_R_2, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == DOWN)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_F_2, info->element_info->x_player * 32, info->element_info->y_player * 32);
+	}
+}
+
+void zwei_surplus(t_info *info)
+{
+	if (info->element_info->direction == LEFT)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_L_3, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == UP)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_B_3, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == RIGHT)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_R_3, info->element_info->x_player, info->element_info->y_player);
+	}
+	if (info->element_info->direction == DOWN)
+	{
+		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						info->mlx_img->P_F_3, info->element_info->x_player * 32, info->element_info->y_player * 32);
+	}
+}
+
+int	run_player(t_info *info)
+{
+	if (info->func_count % 3 == 0)
+	{
+		null_surplus(info);
+	}
+	if (info->func_count % 3 == 1)
+	{
+		eins_surplus(info);
+	}
+	if (info->func_count % 3 == 2)
+	{
+		zwei_surplus(info);
+	}
+	info->func_count++;
+	return (0);
+}*/
 
 void	hook(t_info *info)
 {
 	mlx_hook(info->mlx_win_id, 2, 1L << 0, key_hook, info);
+//	mlx_loop_hook(info->mlx_id, run_player, &info);
 //	mlx_expose_hook(info->mlx_win_id, )
 }
-
-/*int	run_player(t_info *info)
-{
-
-}*/
 
 /*__attribute__((destructor))
 static void destructor() {
@@ -349,10 +305,11 @@ int	main(int argc, char **argv)
 	load_map(&info, argv[1]);
 	valid_map(&info);
 	info.mlx_id = mlx_init();
-	info.mlx_win_id = mlx_new_window(info.mlx_id, info.map_info->row * 32, info.map_info->column * 32, "so_long");
+	info.mlx_win_id = mlx_new_window(info.mlx_id, \
+				info.map_info->row * 32, info.map_info->column * 32, "so_long");
 	put_map(&info);
-	hook(&info);
 //	mlx_loop_hook(info.mlx_id, run_player, &info);
+	hook(&info);
 	mlx_loop(info.mlx_id);
 	//free処理
 	mlx_destroy_window(info.mlx_id, info.mlx_win_id);

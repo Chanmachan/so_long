@@ -57,6 +57,27 @@ typedef struct s_element_info
 	int		y_exit;
 }				t_element_info;
 
+/*typedef struct s_mlx_img
+{
+	void	*WALL_IMG;
+	void	*GROUND_IMG;
+	void	*COLLECT_IMG;
+	void	*EXIT_C_IMG;
+	void	*EXIT_O_IMG;
+	void	*P_B_1;
+	void	*P_B_2;
+	void	*P_B_3;
+	void	*P_F_1;
+	void	*P_F_2;
+	void	*P_F_3;
+	void	*P_L_1;
+	void	*P_L_2;
+	void	*P_L_3;
+	void	*P_R_1;
+	void	*P_R_2;
+	void	*P_R_3;
+}				t_mlx_img;*/
+
 typedef struct s_info
 {
 	void			*mlx_id;
@@ -65,6 +86,7 @@ typedef struct s_info
 	size_t			func_count;
 	t_map_info		*map_info;
 	t_element_info	*element_info;
+//	t_mlx_img		*mlx_img;
 } 				t_info;
 
 //error.c
