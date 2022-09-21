@@ -1,55 +1,5 @@
 #include "../includes/so_long.h"
 
-/*void	get_put_image(t_info *info, char c, int x, int y)
-{
-	void	*mlx_img;
-	int		img_width;
-	int		img_height;
-
-	if (c == '1')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			WALL, &img_width, &img_height);
-	else if (c == '0')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			GROUND, &img_width, &img_height);
-	else if (c == 'C')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			COLLECT, &img_width, &img_height);
-	else if (c == 'P')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			info->img_path, &img_width, &img_height);
-	else if (c == 'E')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			EXIT_CLOSE, &img_width, &img_height);
-	else if (c == 'O')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			EXIT_OPEN, &img_width, &img_height);
-	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						mlx_img, x * 32, y * 32);
-	mlx_destroy_image(info->mlx_id, mlx_img);
-}*/
-
-/*void	get_put_image(t_info *info, char c, int x, int y)
-{if (c == '1')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->WALL_IMG, x * 32, y * 32);
-	else if (c == '0')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->GROUND_IMG, x * 32, y * 32);
-	else if (c == 'C')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->COLLECT_IMG, x * 32, y * 32);
-	else if (c == 'P')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->P_F_2, x * 32, y * 32);
-	else if (c == 'E')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->EXIT_C_IMG, x * 32, y * 32);
-	else if (c == 'O')
-		mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						info->mlx_img->EXIT_O_IMG, x * 32, y * 32);
-}*/
-
 void	get_put_image(t_info *info, char c, int x, int y)
 {
 	void	*mlx_img;
@@ -107,7 +57,6 @@ int	put_map(t_info *info)
 {
 	size_t	i;
 	size_t	j;
-
 
 	i = 0;
 	while (i < info->map_info->column)
