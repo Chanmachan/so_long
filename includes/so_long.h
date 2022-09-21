@@ -62,6 +62,7 @@ typedef struct s_info
 	void			*mlx_id;
 	void			*mlx_win_id;
 	char			*img_path;
+	size_t			pedometer;
 	size_t			func_count;
 	t_map_info		*map_info;
 	t_element_info	*element_info;

@@ -5,6 +5,7 @@ void	init_info(t_info *info)
 	info->mlx_id = NULL;
 	info->mlx_win_id = NULL;
 	info->img_path = P_FRONT_2;
+	info->pedometer = 0;
 	info->func_count = 0;
 	info->map_info = (t_map_info *) malloc(sizeof(t_map_info));
 	if (info->map_info == NULL)
