@@ -1,98 +1,5 @@
 #include "../includes/so_long.h"
 
-/*void	get_put_image(t_info *info, char c, int x, int y)
-{
-	void	*mlx_img;
-	int		img_width;
-	int		img_height;
-
-	if (c == '1')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			WALL, &img_width, &img_height);
-	else if (c == '0')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			GROUND, &img_width, &img_height);
-	else if (c == 'C')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			COLLECT, &img_width, &img_height);
-	else if (c == 'P')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			P_FRONT_2, &img_width, &img_height);
-	else if (c == 'E')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			EXIT_CLOSE, &img_width, &img_height);
-	else if (c == 'O')
-		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
-			EXIT_OPEN, &img_width, &img_height);
-	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						mlx_img, x * 32, y * 32);
-	mlx_destroy_image(info->mlx_id, mlx_img);
-}
-
-void	display_map(t_info *info, char *str, int x, int y)
-{
-	if (*str == '1')
-		get_put_image(info, *str, x, y);
-	else if (*str == '0')
-		get_put_image(info, *str, x, y);
-	else if (*str == 'C')
-		get_put_image(info, *str, x, y);
-	else if (*str == 'P')
-	{
-		info->element_info->x_player = x;
-		info->element_info->y_player = y;
-		get_put_image(info, *str, x, y);
-	}
-	else if (*str == 'E')
-	{
-		info->element_info->x_exit = x;
-		info->element_info->y_exit = y;
-		get_put_image(info, *str, x, y);
-	}
-	else if (*str == 'O')
-		get_put_image(info, *str, x, y);
-}
-
-void	put_map(t_info *info)
-{
-	size_t	i;
-	size_t	j;
-
-	i = 0;
-	while (i < info->map_info->column)
-	{
-		j = 0;
-		while (j < info->map_info->row)
-		{
-			display_map(info, &info->map_info->map[i][j], j, i);
-			j++;
-		}
-		i++;
-	}
-}*/
-
-/*void	destroy_imgs(t_info *info)
-{
-	mlx_destroy_image(info->mlx_id, info->mlx_img->WALL_IMG);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->GROUND_IMG);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->COLLECT_IMG);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->EXIT_C_IMG);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->EXIT_O_IMG);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_1);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_2);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_3);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_F_1);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_F_2);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_F_3);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_L_1);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_L_2);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_L_3);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_B_1);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_R_1);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_R_2);
-	mlx_destroy_image(info->mlx_id, info->mlx_img->P_R_3);
-}*/
-
 int	end_window(t_info *info)
 {
 	size_t	i;
@@ -310,6 +217,23 @@ void	hook(t_info *info)
 //	mlx_expose_hook(info->mlx_win_id, )
 }
 
+int	valid_file_path(char *file_path)
+{
+	size_t	len;
+
+	len = ft_strlen(file_path);
+	if (ft_strncmp(file_path, "maps/", 5) == 0)
+	{
+		if (len < 10)
+			exit_failure(2);
+	}
+	if (len < 5)
+		exit_failure(2);
+	if (ft_strncmp(file_path + len - 4, ".ber", 4))
+		exit_failure(2);
+	return (0);
+}
+
 /*__attribute__((destructor))
 static void destructor() {
 	system("leaks -q so_long");
@@ -321,6 +245,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 2)
 		exit_failure(1);
+	valid_file_path(argv[1]);
 	load_map(&info, argv[1]);
 	valid_map(&info);
 	info.mlx_id = mlx_init();
