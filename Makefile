@@ -4,7 +4,7 @@ SRCS_DIR = ./srcs
 
 OBJS_DIR = ./objs
 
-SRCS_FILE = main.c load_map.c error.c init.c put_map.c run_player.c valid_map.c
+SRCS_FILE = main.c load_map.c error.c init.c put_map.c replace_player.c run_player.c valid_map.c
 
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILE))
 
