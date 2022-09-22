@@ -17,6 +17,7 @@ void	display_steps(t_info *info)
 	info->pedometer++;
 	ft_putnbr_fd(info->pedometer, 1);
 	ft_putchar_fd('\n', 1);
+//	mlx_string_put(info->mlx_id, info->mlx_win_id, 10, 32 * (info->map_info->column + 1) + 3, 0xFFFFFFFA, "tmp");
 }
 
 static void	if_move_to_c(t_info *info, int x, int y)
@@ -40,11 +41,11 @@ static int	if_move_to_o(t_info *info, int x, int y)
 		end_window(info);
 	}
 	else if (info->map_info->count_collect != 0 && \
-			info->map_info->map[info->element_info->y_player + y] \
+			(info->map_info->map[info->element_info->y_player + y] \
 								[info->element_info->x_player] == 'E' || \
 			info->map_info-> \
 				map[info->element_info->y_player] \
-								[info->element_info->x_player + x] == 'E')
+								[info->element_info->x_player + x] == 'E'))
 		return (1);
 	return (0);
 }

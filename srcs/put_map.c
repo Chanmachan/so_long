@@ -12,12 +12,20 @@
 
 #include "../includes/so_long.h"
 
+static void	to_window_and_destroy_img(t_info *info, int x, int y, void *mlx_img)
+{
+	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
+						mlx_img, x * 32, y * 32);
+	mlx_destroy_image(info->mlx_id, mlx_img);
+}
+
 static void	get_put_image(t_info *info, char c, int x, int y)
 {
 	void	*mlx_img;
 	int		img_width;
 	int		img_height;
 
+	mlx_img = NULL;
 	if (c == '1')
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			WALL, &img_width, &img_height);
@@ -36,9 +44,7 @@ static void	get_put_image(t_info *info, char c, int x, int y)
 	else if (c == 'O')
 		mlx_img = mlx_xpm_file_to_image(info->mlx_id, \
 			EXIT_OPEN, &img_width, &img_height);
-	mlx_put_image_to_window(info->mlx_id, info->mlx_win_id, \
-						mlx_img, x * 32, y * 32);
-	mlx_destroy_image(info->mlx_id, mlx_img);
+	to_window_and_destroy_img(info, x, y, mlx_img);
 }
 
 static void	display_map(t_info *info, char *str, int x, int y)
