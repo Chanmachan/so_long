@@ -84,6 +84,7 @@ typedef struct s_info
 int		exit_failure(int num);
 int		give_error_msg(void);
 //valid_map.c
+int		check_invalid_char(char *str);
 int		valid_map(t_info *info);
 //load_map.c
 void	load_map(t_info *info, char *file_path);

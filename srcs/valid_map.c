@@ -12,6 +12,20 @@
 
 #include "../includes/so_long.h"
 
+int	check_invalid_char(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\n' && str[i] != '\0')
+	{
+		if (str[i] != '1' && str[i] != '0' && str[i] != 'C' && str[i] != 'E' && str[i] != 'P')
+			exit_failure(0);
+		i++;
+	}
+	return (0);
+}
+
 static int	up_and_down_frame(t_info *info)
 {
 	size_t	i;

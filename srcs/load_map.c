@@ -47,6 +47,7 @@ static char	*get_line(t_info *info, char *file_path)
 			break ;
 		if (line[0] != '1')
 			exit_failure(0);
+		check_invalid_char(line);
 		tmp = str;
 		str = ft_strjoin(str, line);
 		free(tmp);
