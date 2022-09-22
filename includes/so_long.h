@@ -50,6 +50,12 @@
 # define RIGHT 65363
 # define DOWN 65364
 
+//run_player
+# define MIDDLE_LEG 25000
+# define LEFT_LEG_UP 50000
+# define RIGHT_LEG_UP 100000
+# define RESET_COUNT 200000
+
 typedef struct s_map_info
 {
 	int		count_collect;

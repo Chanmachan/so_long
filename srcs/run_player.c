@@ -86,14 +86,14 @@ static void	zwei_surplus(t_info *info)
 
 int	run_player(t_info *info)
 {
-	if (info->func_count % 25000 == 0)
+	if (info->func_count % MIDDLE_LEG == 0)
 		eins_surplus(info);
-	else if (info->func_count % 50000 == 1)
+	else if (info->func_count % LEFT_LEG_UP == 1)
 		null_surplus(info);
-	else if (info->func_count % 100000 == 2)
+	else if (info->func_count % RIGHT_LEG_UP == 2)
 		zwei_surplus(info);
 	info->func_count++;
-	if (info->func_count > 200000)
+	if (info->func_count > RESET_COUNT)
 		info->func_count = 0;
 	return (0);
 }
