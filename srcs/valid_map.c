@@ -19,7 +19,8 @@ int	check_invalid_char(char *str)
 	i = 0;
 	while (str[i] != '\n' && str[i] != '\0')
 	{
-		if (str[i] != '1' && str[i] != '0' && str[i] != 'C' && str[i] != 'E' && str[i] != 'P')
+		if (str[i] != '1' && str[i] != '0' && str[i] != 'C' && \
+			str[i] != 'E' && str[i] != 'P')
 			exit_failure(0);
 		i++;
 	}
