@@ -6,7 +6,7 @@
 /*   By: hommayunosuke <hommayunosuke@student.42    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 01:14:52 by hommayunosu       #+#    #+#             */
-/*   Updated: 2022/07/08 01:14:53 by hommayunosu      ###   ########.fr       */
+/*   Updated: 2022/09/22 13:29:39 by hommayunosu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ char	*ft_strnstr(const char *s1, const char *s2, size_t len);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strtrim(char const *s1, char const *set);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
-int		ft_tolower(int	c);
-int		ft_toupper(int	c);
+int		ft_tolower(int c);
+int		ft_toupper(int c);
 char	*ft_strdup(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_itoa(int n);
