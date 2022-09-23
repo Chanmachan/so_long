@@ -98,7 +98,10 @@ int	main(int argc, char **argv)
 	info.mlx_id = mlx_init();
 	info.mlx_win_id = mlx_new_window(info.mlx_id, \
 				info.map_info->row * 32, info.map_info->column * 32, "so_long");
+//	info.mlx_win_id = mlx_new_window(info.mlx_id, \
+				info.map_info->row * 32, info.map_info->column * 32 + 20, "so_long");
 	put_map(&info);
+//	mlx_string_put(info.mlx_id, info.mlx_win_id, 10, 32 * (info.map_info->column + 1) + 3, 0xfff5ee, "tmp");
 	hook(&info);
 	mlx_loop(info.mlx_id);
 	end_window(&info);
