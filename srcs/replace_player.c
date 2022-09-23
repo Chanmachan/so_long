@@ -17,7 +17,6 @@ void	display_steps(t_info *info)
 	info->pedometer++;
 	ft_putnbr_fd(info->pedometer, 1);
 	ft_putchar_fd('\n', 1);
-//	mlx_string_put(info->mlx_id, info->mlx_win_id, 10, 32 * (info->map_info->column + 1) + 3, 0xFFFFFFFA, "tmp");
 }
 
 static void	if_move_to_c(t_info *info, int x, int y)
