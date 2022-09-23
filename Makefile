@@ -8,54 +8,61 @@ SRCS_FILE = main.c load_map.c error.c init.c put_map.c replace_player.c run_play
 
 SRCS = $(addprefix $(SRCS_DIR)/, $(SRCS_FILE))
 
-LIBFT = ./libft
-GNL = ./gnl
-MLX = ./minilibx-linux
+LIBFT_DIR = ./libft
+GNL_DIR = ./gnl
+MLX_DIR = ./minilibx-linux
 
 INCLUDES = ./includes/so_long.h
 
 OBJS = $(patsubst $(SRCS_DIR)/%, $(OBJS_DIR)/%, $(SRCS:.c=.o))
 
 LIBFT_ARC = ./libft/libft.a
-GNL_ARC = ./gnl/gnl.a
-MLX_ARC = ./minilibx-linux/libmlx.a ./minilibx-linux/libmlx_Darwin.a
+LIBGNL = ./gnl/gnl.a
+CFLAGS = -Wall -Werror -Wextra
 
-CFLAGS = -Wall -Werror -Wextra -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit #-fsanitize=address
+os = $(shell uname)
+
+ifeq ($(os), Darwin)
+	LIBMLX = ./minilibx-linux/libmlx.a ./minilibx-linux/libmlx_Darwin.a
+	MLXFLAGS +=  -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit #-fsanitize=address
+else
+	LIBMLX = minilibx-linux/libmlx.a minilibx-linux/libmlx_Linux.a -lXext -lX11 -lm
+	MLXFLAGS +=
+endif
+
+#CFLAGS = -Wall -Werror -Wextra
+
+#need#
+#CFLAGS = -Wall -Werror -Wextra
+#LIBMLX = ./minilibx-linux/libmlx.a ./minilibx-linux/libmlx_Darwin.a
+#MLXFLAGS = -L/usr/X11R6/lib -lX11 -lXext -framework OpenGL -framework AppKit #-fsanitize=address
+#-fsanitize=address
 #MP -MMD
 
 all: $(NAME)
 
-test: $(OBJS)
-		$(MAKE) -C $(LIBFT)
-		$(MAKE) -C $(GNL)
-		$(CC) $(CFLAGS) $(LIBFT_ARC) $(GNL_ARC) $<
-
 $(NAME): $(OBJS)
-		$(MAKE) -C $(LIBFT)
-		$(MAKE) -C $(GNL)
-		$(MAKE) -C $(MLX)
-		$(CC) $(CFLAGS) $(MLX_ARC) $(LIBFT_ARC) $(GNL_ARC) $^ -o $(NAME)
-#$(CC) $(CFLAGS) $(GNL_ARC) $(MLX_ARC) $(LIBFT_ARC) $< -o $(NAME)
+		$(MAKE) -C $(LIBFT_DIR)
+		$(MAKE) -C $(GNL_DIR)
+		$(MAKE) -C $(MLX_DIR)
+		$(CC) $(CFLAGS) $(MLXFLAGS) $^ -o $(NAME) $(LIBFT_ARC) $(LIBGNL) $(LIBMLX)
+#$(CC) $(CFLAGS) $(LIBGNL) $(LIBMLX) $(LIBFT_ARC) $< -o $(NAME)
 
 $(OBJS_DIR)/%.o: $(SRCS_DIR)/%.c
 		mkdir -p $(OBJS_DIR)
-		$(CC) $(CFLLAGS) -c $< -o $@
+		$(CC) $(CFLAGS) -c $< -o $@
+#$(CC) $(CFLLAGS) -c $< -o $@
 
 clean:
 		$(RM) -r $(OBJS_DIR)
-		$(MAKE) -C $(LIBFT) clean
-		$(MAKE) -C $(GNL) clean
-		$(MAKE) -C $(MLX) clean
+		$(MAKE) -C $(LIBFT_DIR) clean
+		$(MAKE) -C $(GNL_DIR) clean
+		$(MAKE) -C $(MLX_DIR) clean
 
 fclean: clean
-		$(MAKE) -C $(LIBFT) fclean
-		$(MAKE) -C $(GNL) fclean
+		$(MAKE) -C $(LIBFT_DIR) fclean
+		$(MAKE) -C $(GNL_DIR) fclean
 		$(RM) $(NAME)
-
-ctest: clean
-		$(MAKE) -C $(LIBFT) fclean
-		$(MAKE) -C $(GNL) fclean
-		$(RM) a.out
 
 re: fclean all
 
