@@ -86,6 +86,8 @@ static void destructor() {
 	system("leaks -q so_long");
 }*/
 
+//static t_info info = {};
+
 int	main(int argc, char **argv)
 {
 	t_info	info;
